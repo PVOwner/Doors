@@ -1,7 +1,7 @@
 if game.CoreGui:FindFirstChild("FluxLib") or game.CoreGui:FindFirstChild("Message") then return end
 
 local Flux = loadstring(game:HttpGet("https://pastebin.com/raw/SMnfbaGH"))()
-local Window = Flux:Window("Doors Script  ", "Doors", Color3.new(0,0.8), Enum.KeyCode.RightControl)
+local Window = Flux:Window("Awesome Doors Script  ", "Doors", Color3.new(0,0.8), Enum.KeyCode.RightControl)
 local Tab = Window:Tab("Main", "rbxassetid://6026568198")
 local Tab2 = Window:Tab("Visual", "rbxassetid://6031763426")
 local Tab3 = Window:Tab("Credits", "rbxassetid://14643736801")
@@ -685,6 +685,16 @@ Tab2:Toggle("Spam Motor Replication","Other players will basically see you havin
         SpoofMotor:Disconnect()
     end
 end)
+Tab2:Toggle(":) Hub (Item/Script)","Other players will basically don't see you having a item because it visual.",false,function(Bool)
+    if Bool then
+        loadstring(game:HttpGet('https://pastebin.com/raw/GkCt1VCq'))()
+    end
+end)
+Tab2:Toggle("Inf Vitamins (WIP)","Like SpeedBooster.",false,function(Bool)
+    if Bool then
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/Inf_Vitamins.lua"))()
+    end
+end)
 if Floor.Value == "Hotel" or Floor.Value == "Fools" then
     Tab2:Toggle("Unbreakable Lights","Makes it so entities like Rush and Ambush won't shatter/break the lights (which makes the room dark)",false,function(Bool)
         if Bool then
@@ -698,11 +708,7 @@ if Floor.Value == "Hotel" or Floor.Value == "Fools" then
 end
 Tab3:Toggle("Credits","Show Credits Of Creator.",false,function(Bool)
     if Bool then
-        game:GetService("StarterGui"):SetCore("SendNotification", {
-			Title = "Credits",
-			Text = "Made By Iamrealmario, And Sub To MarioIsRel Right Now!",
-			Duration = 30,
-		})
+        Flux:Notification("Made by Iamrealmario.","OK")
     end
 end)
 TextChatService.OnIncomingMessage = function(MessageData)
