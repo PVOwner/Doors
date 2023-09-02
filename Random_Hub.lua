@@ -125,5 +125,17 @@ Section:NewButton("Entity Spawner", "", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/althan99/doors-entity-spawner/main/Script"))()  
 end)
 
+Section:NewButton("Doors Hard Mode", "", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/plamen6789/HardcoreScriptDOORS/main/HardcoreModeScript'))()
+end)
+
+Section:NewButton("Tablet", "", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/DeividComSono/Scripts/main/Scanner.lua'))()
+end)
+
+Section:NewButton("UtilitiesHub", "", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/plamen6789/UtilitiesHub/main/UtilitiesGUI'))()
+end)
+
 local Tab = Window:NewTab("Credits")
 local Section = Tab:NewSection("Made by Iamrealmario.")
