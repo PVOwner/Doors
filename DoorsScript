@@ -666,12 +666,12 @@ Tab2:Toggle("Spam Motor Replication","Other players will basically see you havin
         SpoofMotor:Disconnect()
     end
 end)
-Tab2:Button(":) Hub (Item/Script)","Other players will basically don't see you having a item because it visual.",false,function(Bool)
+Tab2:Button("Random Hub (Item/Script)","Other players will basically don't see you having a item because it visual.",false,function(Bool)
     if Bool then
-        loadstring(game:HttpGet('https://raw.githubusercontent.com/PVOwner/Doors/main/:)_Hub.lua'))()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/PVOwner/Doors/main/Random_Hub.lua'))()
     end
 end)
-Tab2:Button("Inf Vitamins","Get Vitamins Without Run Out!!",false,function(Bool)
+Tab2:Button("Inf Vitamins","Get Vitamins Without Runout!!",false,function(Bool)
     if Bool then
         loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/Inf_Vitamins.lua"))()
     end
