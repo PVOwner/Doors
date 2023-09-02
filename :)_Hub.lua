@@ -102,10 +102,6 @@ Section:NewButton("Eyes Plushie", "", function()
    Item.Parent = game.Players.LocalPlayer.Backpack
 end)
 
-Section:NewButton("Tablet", "", function()
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/DeividComSono/Scripts/main/Scanner.lua'))()
-end)
-
 local Tab = Window:NewTab("Script")
 local Section = Tab:NewSection("Get Scripts Here!!")
 
