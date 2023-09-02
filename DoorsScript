@@ -4,7 +4,7 @@ local Flux = loadstring(game:HttpGet("https://pastebin.com/raw/SMnfbaGH"))()
 local Window = Flux:Window("Awesome Hacks", "Doors 👁️ [MODIFIERS]", Color3.new(0,0.8), Enum.KeyCode.RightControl)
 local Tab = Window:Tab("Main", "rbxassetid://6026568198")
 local Tab2 = Window:Tab("Visual", "rbxassetid://6031763426")
-local Tab3 = Window:Tab("Credits", "rbxassetid://14643736801")
+local Tab3 = Window:Tab("Misc", "rbxassetid://14643736801")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -287,19 +287,19 @@ local function ApplySettings(Object)
             if RNG == 18 then
                 ReplacePainting(Object,AvatarIcon,"You")
             elseif RNG == 19 then
-                ReplacePainting(Object,"rbxassetid://11914981751","Maxwell The Cat")
+                ReplacePainting(Object,"rbxassetid://12380697948","Mr. Sussy Baka")
             end
         end
         if Object.Name == "Painting_VeryBig" then
             local RNG = math.random(1,16)
             if RNG == 16 then
-                ReplacePainting(Object,"rbxassetid://13500013612","Freddy But Bad")
+                ReplacePainting(Object,"rbxassetid://12778424825","Fredrick")
             end
         end
         if Object.Name == "Painting_Tall" then
             local RNG = math.random(1,13)
             if RNG == 13 then
-                ReplacePainting(Object,"rbxassetid://6403436082","Definitely Not Rickroll")
+                ReplacePainting(Object,"rbxassetid://12836336900","Idk What Is This")
             end
         end
         if Object.Name == "Shears" and Object.Parent.Name == "LootItem" then
@@ -666,10 +666,10 @@ Tab2:Toggle("Spam Motor Replication","Other players will basically see you havin
         SpoofMotor:Disconnect()
     end
 end)
-Tab2:Button("Random Hub (Item/Script)","Other players will basically don't see you having a item because it visual.",function()
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/PVOwner/Doors/main/Random_Hub.lua'))()
+Tab2:Button("Random Hub (Item/Script)","...",function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/PVOwner/Doors/main/:)_Hub.lua'))()
 end)
-Tab2:Button("Inf Vitamins","Get Vitamins Without Runout!!",function()
+Tab2:Button("Inf Vitamins","Get Vitamin s Without Runout!!",function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/Inf_Vitamins.lua"))()
 end)
 if Floor.Value == "Hotel" or Floor.Value == "Fools" then
@@ -683,8 +683,8 @@ if Floor.Value == "Hotel" or Floor.Value == "Fools" then
         end
     end)
 end
-Tab3:Button("Credits","Show Credits Of Creator.",function()
-  Flux:Notification("Made by Iamrealmario.","OK")
+Tab3:Button("Credits","",function()
+    Flux:Notification("Made by Iamrealmario.","OK")
 end)
 TextChatService.OnIncomingMessage = function(MessageData)
     task.spawn(function()
@@ -711,6 +711,8 @@ TextChatService.OnIncomingMessage = function(MessageData)
                             if LocalPlayer.Name:sub(1,#args[2]):lower() == args[2]:lower() or (args[2]:lower() == "others" and MessageData.TextSource.UserId ~= LocalPlayer.UserId) then
                                 if args[1] == "chat" and args[3] then
                                     TextChatService.TextChannels.RBXGeneral:SendAsync(args[3])
+                                elseif args[1] == "a90" then
+                                    require(CustomA90Module)(require(Main_Game))
                                 end
                             end
                         end
