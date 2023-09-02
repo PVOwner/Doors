@@ -1,7 +1,7 @@
 if game.CoreGui:FindFirstChild("FluxLib") or game.CoreGui:FindFirstChild("Message") then return end
 
 local Flux = loadstring(game:HttpGet("https://pastebin.com/raw/SMnfbaGH"))()
-local Window = Flux:Window("PV+ Hacks", "Doors", Color3.new(0,0.8), Enum.KeyCode.RightControl)
+local Window = Flux:Window("Awesome Hacks", "Doors 👁️ [MODIFIERS]", Color3.new(0,0.8), Enum.KeyCode.RightControl)
 local Tab = Window:Tab("Main", "rbxassetid://6026568198")
 local Tab2 = Window:Tab("Visual", "rbxassetid://6031763426")
 local Tab3 = Window:Tab("Credits", "rbxassetid://14643736801")
@@ -690,29 +690,9 @@ Tab2:Toggle(":) Hub (Item/Script)","Other players will basically don't see you h
         loadstring(game:HttpGet('https://raw.githubusercontent.com/PVOwner/Doors/main/:)_Hub.lua'))()
     end
 end)
-Tab2:Toggle("Inf Vitamins (WIP)","Like SpeedBooster.",false,function(Bool)
+Tab2:Toggle("Inf Vitamins","Like Speed.",false,function(Bool)
     if Bool then
         loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/Inf_Vitamins.lua"))()
-    end
-end)
-Tab2:Toggle("Tablet On Pre-Run Shop Price 1000","Tricks the game into thinking you get the tablet at A-1000, But on pre-run shop.",false,function(Bool)
-    if Bool then
-        _G.UpdateStars = false
-        _G.OnShop = true
-        _G.Price = 1000
-        _G.Description = "The OG Tablets"
-
-        loadstring(game:HttpGet('https://raw.githubusercontent.com/DeividComSono/Scripts/main/Scanner.lua'))()
-    end
-end)
-Tab2:Toggle("Tablet On Pre-Run Shop Free","Tricks the game into thinking you get the tablet at A-1000, But on pre-run shop.",false,function(Bool)
-    if Bool then
-        _G.UpdateStars = false
-        _G.OnShop = true
-        _G.Price = 0
-        _G.Description = "The OG Tablets"
-
-        loadstring(game:HttpGet('https://raw.githubusercontent.com/DeividComSono/Scripts/main/Scanner.lua'))()
     end
 end)
 if Floor.Value == "Hotel" or Floor.Value == "Fools" then
@@ -834,7 +814,7 @@ chat.ChildAdded:Connect(function (child)
 				elseif string.find(command,splayer.Name) and string.find(command,"reveal") then
 				    local textChatService = game:GetService("TextChatService")
 			        wait(0.0001)
-			        textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync("Im Using Awesome Doors Script, Made By Iamrealmario.")
+			        textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync("Im Using Awesome Doors Hacks, Made By Iamrealmario.")
 				elseif string.find(command,"hehe") then
 					local sound = Instance.new("Sound", game.Workspace)
 					sound.SoundId = "rbxassetid://5602666105"
