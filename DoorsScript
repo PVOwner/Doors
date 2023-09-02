@@ -1,7 +1,7 @@
 if game.CoreGui:FindFirstChild("FluxLib") or game.CoreGui:FindFirstChild("Message") then return end
 
 local Flux = loadstring(game:HttpGet("https://pastebin.com/raw/SMnfbaGH"))()
-local Window = Flux:Window("Awesome Doors Script  ", "Doors", Color3.new(0,0.8), Enum.KeyCode.RightControl)
+local Window = Flux:Window("PV+ Hacks", "Doors", Color3.new(0,0.8), Enum.KeyCode.RightControl)
 local Tab = Window:Tab("Main", "rbxassetid://6026568198")
 local Tab2 = Window:Tab("Visual", "rbxassetid://6031763426")
 local Tab3 = Window:Tab("Credits", "rbxassetid://14643736801")
