@@ -102,6 +102,10 @@ Section:NewButton("Eyes Plushie", "", function()
    Item.Parent = game.Players.LocalPlayer.Backpack
 end)
 
+Section:NewButton("Tablet", "", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/DeividComSono/Scripts/main/Scanner.lua'))()
+end)
+
 local Tab = Window:NewTab("Script")
 local Section = Tab:NewSection("Get Scripts Here!!")
 
@@ -119,6 +123,10 @@ end)
 
 Section:NewButton("FOV", "", function()
     game.Workspace.CurrentCamera.FieldOfView = 130
+end)
+
+Section:NewButton("Entity Spawner", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/althan99/doors-entity-spawner/main/Script"))()  
 end)
 
 local Tab = Window:NewTab("Credits")
