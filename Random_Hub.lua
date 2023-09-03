@@ -1,1 +1,153 @@
-local a=loadstring(game:HttpGet("https://raw.githubusercontent.com/Yopapa699/KavoUI/main/KavoUiLib"))()local b=a.CreateLib(":)","Serpent")local c=b:NewTab("Tools")local d=c:NewSection("Get Tools Here!!")d:NewButton("Banana Guns","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/BananaGunByNerd.lua"))()end)d:NewButton("Holy Grenade","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/HolyGrenadeByNerd.lua"))()end)d:NewButton("Magnet","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/MagnetByNerd.lua"))()end)d:NewButton("Ice Guns","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/IcegunByNerd.lua"))()end)d:NewButton("Everything Guns","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/EverythingGunByNeRD.lua"))()end)d:NewButton("Shears","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/shears_done.lua"))()end)d:NewButton("Crucifix On Room 1","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Crucifix On Door 0.lua"))()end)d:NewButton("Crucifix On Rift","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Crucifix On Rift.lua"))()end)d:NewButton("Chocolate Bar","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Chocolate Bar.lua"))()end)d:NewButton("Debug Stick","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Debug Stick"))()end)d:NewButton("Flamethrower","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Flamethrower"))()end)d:NewButton("Flashlight","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Flashlight.lua"))()end)d:NewButton("Godly Hand","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Godly Hand.lua"))()end)d:NewButton("Laser Guns","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Laser Gun.lua"))()end)d:NewButton("Maxwell Plushie","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Maxwell Plushie.lua"))()end)d:NewButton("Magic Book","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Magic Book"))()end)d:NewButton("Lucky Block","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Lucky Block"))()end)d:NewButton("Creeper Gun","",function()local e=game:GetObjects("rbxassetid://11733586784")[1]e.Parent=game.Players.LocalPlayer.Backpack end)d:NewButton("Screech Plushie","",function()loadstring(game:HttpGet("https://pastebin.com/raw/yAyZVLAW"))()end)d:NewButton("Seek Plushie","",function()loadstring(game:HttpGet("https://pastefy.ga/cMz6DDWC/raw"))()end)d:NewButton("Ambush Plushie","",function()loadstring(game:HttpGet("https://pastefy.ga/F05e55h3/raw"))()end)d:NewButton("A-60 Plushie","",function()loadstring(game:HttpGet("https://pastefy.ga/UhuzwPLZ/raw"))()end)d:NewButton("Figure Plushie","",function()loadstring(game:HttpGet("https://pastefy.ga/cn87mQiq/raw"))()end)d:NewButton("Eyes Plushie","",function()local e=game:GetObjects("rbxassetid://110017631")[1]e.Parent=game.Players.LocalPlayer.Backpack end)local c=b:NewTab("Script")local d=c:NewSection("Get Scripts Here!!")d:NewButton("GodMode","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/GodModeByNerd.lua"))()end)d:NewButton("Be Everything","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/BeEverything.lua"))()end)d:NewButton("Item Morph GUI","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Item Morph GUI"))()end)d:NewButton("FOV","",function()game.Workspace.CurrentCamera.FieldOfView=130 end)d:NewButton("Entity Spawner","",function()loadstring(game:HttpGet("https://raw.githubusercontent.com/althan99/doors-entity-spawner/main/Script"))()end)d:NewButton("Doors Hard Mode","",function()loadstring(game:HttpGet('https://raw.githubusercontent.com/plamen6789/HardcoreScriptDOORS/main/HardcoreModeScript'))()end)d:NewButton("Tablet","",function()loadstring(game:HttpGet('https://raw.githubusercontent.com/DeividComSono/Scripts/main/Scanner.lua'))()end)d:NewButton("UtilitiesHub","",function()loadstring(game:HttpGet('https://raw.githubusercontent.com/plamen6789/UtilitiesHub/main/UtilitiesGUI'))()end)local c=b:NewTab("Credits")local d=c:NewSection("Made by Iamrealmario.")
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Yopapa699/KavoUI/main/KavoUiLib"))()
+local Window = Library.CreateLib(":)", "Serpent")
+
+local Tab = Window:NewTab("Tools")
+local Section = Tab:NewSection("Get Tools Here!!")
+
+Section:NewButton("Banana Guns", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/BananaGunByNerd.lua"))()
+end)
+
+Section:NewButton("Holy Grenade", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/HolyGrenadeByNerd.lua"))()
+end)
+
+Section:NewButton("Magnet", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/MagnetByNerd.lua"))()
+end)
+
+Section:NewButton("Ice Guns", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/IcegunByNerd.lua"))()
+end)
+
+Section:NewButton("Everything Guns", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/EverythingGunByNeRD.lua"))()
+end)
+
+Section:NewButton("Shears", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/shears_done.lua"))()
+end)
+
+Section:NewButton("Crucifix On Room 1", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Crucifix On Door 0.lua"))()
+end)
+
+Section:NewButton("Crucifix On Rift", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Crucifix On Rift.lua"))()
+end)
+
+Section:NewButton("Chocolate Bar", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Chocolate Bar.lua"))()
+end)
+
+Section:NewButton("Debug Stick", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Debug Stick"))()
+end)
+
+Section:NewButton("Flamethrower", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Flamethrower"))()
+end)
+
+Section:NewButton("Flashlight", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Flashlight.lua"))()
+end)
+
+Section:NewButton("Godly Hand", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Godly Hand.lua"))()
+end)
+
+Section:NewButton("Laser Guns", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Laser Gun.lua"))()
+end)
+
+Section:NewButton("Maxwell Plushie", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Maxwell Plushie.lua"))()
+end)
+
+Section:NewButton("Magic Book", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Magic Book"))()
+end)
+
+Section:NewButton("Lucky Block", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Lucky Block"))()
+end)
+
+Section:NewButton("Creeper Gun", "", function()
+   local Item = game:GetObjects("rbxassetid://11733586784")[1]
+   Item.Parent = game.Players.LocalPlayer.Backpack
+end)
+
+Section:NewButton("Screech Plushie", "", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/yAyZVLAW"))()
+end)
+
+Section:NewButton("Seek Plushie", "", function()
+    loadstring(game:HttpGet("https://pastefy.ga/cMz6DDWC/raw"))()  
+end)
+
+Section:NewButton("Ambush Plushie", "", function()
+    loadstring(game:HttpGet("https://pastefy.ga/F05e55h3/raw"))()  
+end)
+
+Section:NewButton("A-60 Plushie", "", function()
+    loadstring(game:HttpGet("https://pastefy.ga/UhuzwPLZ/raw"))()  
+end)
+
+Section:NewButton("Figure Plushie", "", function()
+    loadstring(game:HttpGet("https://pastefy.ga/cn87mQiq/raw"))()  
+end)
+
+Section:NewButton("Eyes Plushie", "", function()
+   local Item = game:GetObjects("rbxassetid://110017631")[1]
+   Item.Parent = game.Players.LocalPlayer.Backpack
+end)
+
+Section:NewButton("Rocket Launcher V1 (Normal)", "", function()
+    _G.reloadTime = 0 
+    _G.explosionType = "Default"
+    _G.explosionPower = 2500 
+    _G.explosionRadius = 10 
+    _G.lessBrighterColorsFromExplosion = 30 
+    _G.betterFEEffect = true 
+    _G.ignoreMyself = false 
+
+    loadstring(game:HttpGetAsync("https://github.com/InfernusScripts/Items/raw/main/RocketLauncher.lua",true))()
+end)
+
+Section:NewButton("Rocket Launcher V2 (Banana)", "Need Modifier DOORS SUPER HARD MODE", function()
+    _G.reloadTime = 0 
+    _G.explosionType = "Banana"
+    _G.explosionPower = 2500 
+    _G.explosionRadius = 10 
+    _G.lessBrighterColorsFromExplosion = 30 
+    _G.betterFEEffect = true 
+    _G.ignoreMyself = false 
+
+    loadstring(game:HttpGetAsync("https://github.com/InfernusScripts/Items/raw/main/RocketLauncher.lua",true))()
+end)
+
+local Tab = Window:NewTab("Script")
+local Section = Tab:NewSection("Get Scripts Here!!")
+
+Section:NewButton("GodMode", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/GodModeByNerd.lua"))()
+end)
+
+Section:NewButton("Be Everything", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/BeEverything.lua"))()
+end)
+
+Section:NewButton("Item Morph GUI", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Item Morph GUI"))()
+end)
+
+Section:NewButton("FOV", "", function()
+    game.Workspace.CurrentCamera.FieldOfView = 130
+end)
+
+Section:NewButton("Entity Spawner", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/althan99/doors-entity-spawner/main/Script"))()  
+end)
+
+local Tab = Window:NewTab("Credits")
+local Section = Tab:NewSection("Made by Ember 😎.")
