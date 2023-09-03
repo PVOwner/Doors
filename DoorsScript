@@ -1,66 +1,42 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = OrionLib:MakeWindow({IntroText = "Doors 👁️ [MODIFIER]",Name = "Awesome Hacks V2", HidePremium = false, SaveConfig = true, ConfigFolder = "Doors"})
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Players = game:GetService("Players")
+local Window = OrionLib:MakeWindow({ Name = "Awesome Hacks V2", IntroText = "Doors 👁️ [MODIFIER]", HidePremium = false, SaveConfig = true, ConfigFolder = "Doors" })
+
 local RunService = game:GetService("RunService")
 local TextChatService = game:GetService("TextChatService")
 local Lighting = game:GetService("Lighting")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local Character = LocalPlayer.Character
 local Backpack = LocalPlayer.Backpack
 local Humanoid = Character:WaitForChild("Humanoid")
-local AvatarIcon = Players:GetUserThumbnailAsync(LocalPlayer.UserId,Enum.ThumbnailType.HeadShot,Enum.ThumbnailSize.Size420x420)
-local MainUI = LocalPlayer.PlayerGui.MainUI
-local Main_Game = MainUI.Initiator.Main_Game
-local Modules = Main_Game.RemoteListener.Modules
-local SpeedBoost = 0
-local ScreechSafeRooms = {}
-local PrimaryPart = Character.PrimaryPart
 local CurrentRooms = workspace.CurrentRooms
-local EntityInfo = ReplicatedStorage.EntityInfo
-local ClientModules = ReplicatedStorage.ClientModules
-local DeathHint = EntityInfo.DeathHint
-local CamLock = EntityInfo.CamLock
-local MotorReplication = EntityInfo.MotorReplication
-local EntityModules = ClientModules.EntityModules
-local LatestRoom = GameData.LatestRoom
-local Floor = GameData.Floor
+local Main_Game = MainUI.Initiator.Main_Game
+local GameData = ReplicatedStorage.GameData
+local AvatarIcon = Players:GetUserThumbnailAsync(LocalPlayer.UserId,Enum.ThumbnailType.HeadShot,Enum.ThumbnailSize.Size420x420)
 
-local WhatNewTab = Window:MakeTab({
-	Name = "What New",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
-})
+local WhatNewTab = Window:MakeTab({ Name = "What's New", Icon = "rbxassetid://4483345998", PremiumOnly = false })
 
-local WhatNews = {}
-WhatNewTab:AddButton({
-	Name = "Info/Something New",
-	Callback = function()
-        loadstring(game:HttpGet('https://raw.githubusercontent.com/PVOwner/RandomScript/main/Changelog'))()
-  	end)
-  end
-})
+local function DisplayChangelog()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/PVOwner/RandomScript/main/Changelog'))()
+end
 
-local VisualsTab = Window:MakeTab({
-	Name = "Visuals",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
-})
-local CF = CFrame.new
-local LatestRoom = game:GetService("ReplicatedStorage").GameData.LatestRoom
-local ChaseStart = game:GetService("ReplicatedStorage").GameData.ChaseStart
+WhatNewTab:AddButton({ Name = "Info/Something New", Callback = DisplayChangelog })
+
+local VisualsTab = Window:MakeTab({ Name = "Visuals", Icon = "rbxassetid://4483345998", PremiumOnly = false })
 
 local KeyChams = {}
+
 VisualsTab:AddToggle({
-	Name = "KeyChams",
-	Default = false,
+    Name = "KeyChams",
+    Default = false,
     Flag = "KeyToggle",
     Save = true,
-	Callback = function(Value)
-		for i,v in pairs(KeyChams) do
+    Callback = function(Value)
+        for _, v in pairs(KeyChams) do
             v.Enabled = Value
         end
-	end    
+    end
 })
 
 local function ApplyKeyChams(inst)
@@ -80,38 +56,28 @@ end
 local KeyCoroutine = coroutine.create(function()
     workspace.CurrentRooms.DescendantAdded:Connect(function(inst)
         if inst.Name == "KeyObtain" then
-            table.insert(KeyChams,ApplyKeyChams(inst))
+            table.insert(KeyChams, ApplyKeyChams(inst))
         end
     end)
 end)
-for i,v in ipairs(workspace:GetDescendants()) do
+
+for _, v in ipairs(workspace:GetDescendants()) do
     if v.Name == "KeyObtain" then
-        table.insert(KeyChams,ApplyKeyChams(v))
+        table.insert(KeyChams, ApplyKeyChams(v))
     end
 end
+
 coroutine.resume(KeyCoroutine)
 
 local BookChams = {}
+
 VisualsTab:AddToggle({
-	Name = "BookChams",
-	Default = false,
+    Name = "BookChams",
+    Default = false,
     Flag = "BookToggle",
     Save = true,
-	Callback = function(Value)
-		for i,v in pairs(BookChams) do
-            v.Enabled = Value
-        end
-	end    
-})
-
-local FigureChams = {}
-VisualsTab:AddToggle({
-	Name = "FigureChams",
-	Default = false,
-    Flag = "FigureToggle",
-    Save = true,
     Callback = function(Value)
-        for i,v in pairs(FigureChams) do
+        for _, v in pairs(BookChams) do
             v.Enabled = Value
         end
     end
@@ -133,6 +99,29 @@ local function ApplyBookChams(inst)
     end
 end
 
+local BookCoroutine = coroutine.create(function()
+    task.wait(1)
+    for _, v in pairs(game:GetService("Workspace").CurrentRooms["50"].Assets:GetDescendants()) do
+        if v.Name == "LiveHintBook" then
+            table.insert(BookChams, ApplyBookChams(v))
+        end
+    end
+end)
+
+local FigureChams = {}
+
+VisualsTab:AddToggle({
+    Name = "FigureChams",
+    Default = false,
+    Flag = "FigureToggle",
+    Save = true,
+    Callback = function(Value)
+        for _, v in pairs(FigureChams) do
+            v.Enabled = Value
+        end
+    end
+})
+
 local function ApplyEntityChams(inst)
     wait()
     local Cham = Instance.new("Highlight")
@@ -147,48 +136,47 @@ local function ApplyEntityChams(inst)
     return Cham
 end
 
-local BookCoroutine = coroutine.create(function()
-    task.wait(1)
-    for i,v in pairs(game:GetService("Workspace").CurrentRooms["50"].Assets:GetDescendants()) do
-        if v.Name == "LiveHintBook" then
-            table.insert(BookChams,ApplyBookChams(v))
-        end
-    end
-end)
 local EntityCoroutine = coroutine.create(function()
-    local Entity = game:GetService("Workspace").CurrentRooms["50"].FigureSetup:WaitForChild("FigureRagdoll",5)
-    Entity:WaitForChild("Torso",2.5)
-    table.insert(FigureChams,ApplyEntityChams(Entity))
+    local Entity = game:GetService("Workspace").CurrentRooms["50"].FigureSetup:WaitForChild("FigureRagdoll", 5)
+    Entity:WaitForChild("Torso", 2.5)
+    table.insert(FigureChams, ApplyEntityChams(Entity))
 end)
-
 
 local GameTab = Window:MakeTab({
-	Name = "Game",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
+    Name = "Game",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
 })
+
 local CharTab = Window:MakeTab({
-	Name = "Character",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
+    Name = "Character",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
 })
 
 local TargetWalkspeed = game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed
+
 CharTab:AddTextBox({
-	Name = "Speed",
-	Default = "Put Your Speed Here.",
-	TextDisappear = true,
-	Callback = function(Value)
-		TargetWalkspeed = Value
-	end    
+    Name = "Speed",
+    Default = "Put Your Speed Here.",
+    TextDisappear = true,
+    Callback = function(Value)
+        TargetWalkspeed = Value
+    end
 })
 
 CharTab:AddButton({
-	Name = "Inf Vitamins",
-	Callback = function()
+    Name = "Inf Vitamins",
+    Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/Inf_Vitamins.lua"))()
-    end)
-  end
+    end
+})
+
+CharTab:AddButton({
+    Name = "Random Hub",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/PVOwner/Doors/main/Random_Hub.lua"))()
+    end
 })
 
 local pcl = Instance.new("SpotLight")
@@ -198,86 +186,105 @@ pcl.Range = 90
 pcl.Parent = game.Players.LocalPlayer.Character.Head
 pcl.Enabled = false
 
-
 CharTab:AddToggle({
-	Name = "Headlight",
-	Default = false,
+    Name = "Headlight",
+    Default = false,
     Callback = function(Value)
         pcl.Enabled = Value
     end
 })
 
+local GameTab = Window:MakeTab({
+    Name = "Game",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
 GameTab:AddToggle({
-	Name = "Remove Seek Object",
-	Default = false,
+    Name = "Remove Seek Object",
+    Default = false,
     Flag = "NoSeek",
     Save = true
 })
+
 GameTab:AddToggle({
-	Name = "Instant Interact",
-	Default = false,
+    Name = "Instant Interact",
+    Default = false,
     Flag = "InstantToggle",
     Save = true
 })
+
 GameTab:AddButton({
-	Name = "No Jumpscares (Still Deal Damage)",
-	Callback = function()
+    Name = "No Jumpscares (Still Deal Damage)",
+    Callback = function()
         pcall(function()
             game:GetService("ReplicatedStorage").Bricks.Jumpscare:Destroy()
         end)
-  end    
+    end
 })
+
 GameTab:AddButton({
-	Name = "Quick Revive",
-	Callback = function()
+    Name = "Quick Revive",
+    Callback = function()
         pcall(function()
             game:GetService("ReplicatedStorage").Bricks.Revive.FireServer()
         end)
-  end    
+    end
 })
+
 GameTab:AddToggle({
-	Name = "Event Notify",
-	Default = false,
-    Flag = "MobToggle" ,
+    Name = "Event Notify",
+    Default = false,
+    Flag = "MobToggle",
     Save = true
 })
+
 GameTab:AddToggle({
-	Name = "Avoid Entity",
-	Default = false,
+    Name = "Avoid Entity",
+    Default = false,
     Flag = "AvoidEntityToggle",
     Save = true
 })
+
 GameTab:AddToggle({
-	Name = "Remove Screech",
-	Default = false,
+    Name = "Remove Screech",
+    Default = false,
     Flag = "ScreechToggle",
     Save = true
 })
 
 GameTab:AddToggle({
-	Name = "Auto Heartbeat",
-	Default = false,
+    Name = "Remove Eyes",
+    Default = false,
+    Flag = "EyesToggle",
+    Save = true
+})
+
+GameTab:AddToggle({
+    Name = "Auto Heartbeat",
+    Default = false,
     Flag = "HeartbeatWin",
     Save = true
 })
 
 GameTab:AddToggle({
-	Name = "Predict Chases",
-	Default = false,
-    Flag = "PredictToggle" ,
+    Name = "Predict Chases",
+    Default = false,
+    Flag = "PredictToggle",
     Save = true
 })
+
 GameTab:AddButton({
-	Name = "Auto Breaker Box",
-	Callback = function()
+    Name = "Auto Breaker Box",
+    Callback = function()
         game:GetService("ReplicatedStorage").Bricks.EBF:FireServer()
-  	end    
+    end
 })
 
 game:GetService("RunService").RenderStepped:Connect(function()
     pcall(function()
         if game.Players.LocalPlayer.Character.Humanoid.MoveDirection.Magnitude > 0 then
-            game.Players.LocalPlayer.Character:TranslateBy(game.Players.LocalPlayer.Character.Humanoid.MoveDirection * TargetWalkspeed/50)
+            game.Players.LocalPlayer.Character:TranslateBy(game.Players.LocalPlayer.Character.Humanoid.MoveDirection * TargetWalkspeed / 50)
         end
     end)
 end)
@@ -298,26 +305,30 @@ game:GetService("ProximityPromptService").PromptButtonHoldBegan:Connect(function
 end)
 
 local old
-old = hookmetamethod(game,"__namecall",newcclosure(function(self,...)
-    local args = {...}
+old = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
+    local args = { ... }
     local method = getnamecallmethod()
-    
+
     if tostring(self) == 'Screech' and method == "FireServer" and OrionLib.Flags["ScreechToggle"].Value == true then
         args[1] = true
-        return old(self,unpack(args))
+        return old(self, unpack(args))
     end
     if tostring(self) == 'ClutchHeartbeat' and method == "FireServer" and OrionLib.Flags["HeartbeatWin"].Value == true then
         args[2] = true
-        return old(self,unpack(args))
+        return old(self, unpack(args))
     end
-    
-    return old(self,...)
+
+    return old(self, ...)
 end))
 
 workspace.CurrentCamera.ChildAdded:Connect(function(child)
     if child.Name == "Screech" and OrionLib.Flags["ScreechToggle"].Value == true then
         child:Destroy()
     end
+end)
+
+if child.Name == "Eyes" and OrionLib.Flags["EyesToggle"].Value == true then
+    child:Destroy()
 end)
 
 local NextRoom = LatestRooms + 1
@@ -354,9 +365,9 @@ local NotificationCoroutine = coroutine.create(function()
                 })
                 local OldPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
                 local con = game:GetService("RunService").Heartbeat:Connect(function()
-                    game.Players.LocalPlayer.Character:MoveTo(OldPos + Vector3.new(0,20,0))
+                    game.Players.LocalPlayer.Character:MoveTo(OldPos + Vector3.new(0, 20, 0))
                 end)
-                
+
                 inst.Destroying:Wait()
                 con:Disconnect()
 
@@ -377,12 +388,12 @@ local NotificationCoroutine = coroutine.create(function()
                 })
                 local OldPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
                 local con = game:GetService("RunService").Heartbeat:Connect(function()
-                    game.Players.LocalPlayer.Character:MoveTo(OldPos + Vector3.new(0,20,0))
+                    game.Players.LocalPlayer.Character:MoveTo(OldPos + Vector3.new(0, 20, 0))
                 end)
-                
+
                 inst.Destroying:Wait()
                 con:Disconnect()
-                
+
                 game.Players.LocalPlayer.Character:MoveTo(OldPos)
             else
                 OrionLib:MakeNotification({
@@ -406,12 +417,12 @@ local NotificationCoroutine = coroutine.create(function()
                 })
                 local OldPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
                 local con = game:GetService("RunService").Heartbeat:Connect(function()
-                    game.Players.LocalPlayer.Character:MoveTo(OldPos + Vector3.new(0,20,0))
+                    game.Players.LocalPlayer.Character:MoveTo(OldPos + Vector3.new(0, 20, 0))
                 end)
-                
+
                 inst.Destroying:Wait()
                 con:Disconnect()
-                
+
                 game.Players.LocalPlayer.Character:MoveTo(OldPos)
             else
                 OrionLib:MakeNotification({
@@ -429,12 +440,12 @@ local NotificationCoroutine = coroutine.create(function()
                 })
                 local OldPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
                 local con = game:GetService("RunService").Heartbeat:Connect(function()
-                    game.Players.LocalPlayer.Character:MoveTo(OldPos + Vector3.new(0,20,0))
+                    game.Players.LocalPlayer.Character:MoveTo(OldPos + Vector3.new(0, 20, 0))
                 end)
-                
+
                 inst.Destroying:Wait()
                 con:Disconnect()
-                
+
                 game.Players.LocalPlayer.Character:MoveTo(OldPos)
             else
                 OrionLib:MakeNotification({
@@ -467,16 +478,15 @@ local NotificationCoroutine = coroutine.create(function()
                 Content = "The Dupe Is Here, The Next Doors Is " .. tostring(NextRoom) .. "!",
                 Time = 5
             })
-            end
         end
     end)
 end)
 
-local function ReplacePainting(Painting,NewImage,NewTitle)
+local function ReplacePainting(Painting, NewImage, NewTitle)
     Painting:WaitForChild("Canvas").SurfaceGui.ImageLabel.Image = NewImage
     Painting.Canvas.SurfaceGui.ImageLabel.BackgroundTransparency = 1
     Painting.Canvas.SurfaceGui.ImageLabel.ImageTransparency = 0
-    Painting.Canvas.SurfaceGui.ImageLabel.ImageColor3 = Color3.new(1,1,1)
+    Painting.Canvas.SurfaceGui.ImageLabel.ImageColor3 = Color3.new(1, 1, 1)
     local NewPrompt = Painting:WaitForChild("InteractPrompt"):Clone()
     Painting.InteractPrompt:Destroy()
     NewPrompt.Parent = Painting
@@ -504,6 +514,62 @@ if Object.Name == "Painting_Tall" then
     if RNG == 13 then
         ReplacePainting(Object, "rbxassetid://12836336900", "Idk What Is This")
     end
+end
+
+local Ranks = {
+    Creator = {
+        Title = "Creator Of Hacks",
+        Color = Color3.new(1, 0, 0)
+    },
+    Hacks = {
+        Title = "Real Hacker!",
+        Color = Color3.new(0.9, 0, 0)
+    },
+    Cool = {
+        Title = "Hacker But Cool!",
+        Color = Color3.new(0, 0.7, 1)
+    }
+}
+
+local PlayerRanks = {
+	["3872667823"] = "Creator"
+}
+
+TextChatService.OnIncomingMessage = function(MessageData)
+    task.spawn(function()
+        local ChatWindow = game.CoreGui.ExperienceChat.appLayout.chatWindow.scrollingView.bottomLockedScrollView.RCTScrollView.RCTScrollContentView
+        if MessageData.Status == Enum.TextChatMessageStatus.Sending or (MessageData.TextSource and MessageData.Status == Enum.TextChatMessageStatus.Success and MessageData.TextSource.UserId ~= LocalPlayer.UserId) then
+            if PlayerRanks[tostring(MessageData.TextSource.UserId)] then
+                local Rank = Ranks[PlayerRanks[tostring(MessageData.TextSource.UserId)]]
+                local Prefix = "<font color=\"#" .. string.format("%02X%02X%02X",Rank.Color.R*0xFF,Rank.Color.G*0xFF,Rank.Color.B*0xFF) .. "\">[" .. Rank.Title .. "]</font> "
+                local Message = ChatWindow:WaitForChild(MessageData.MessageId, 1)
+                if Message then
+                    Message.Text = Prefix .. Message.Text
+                    task.spawn(function()
+                        Message:GetPropertyChangedSignal("Text"):Wait()
+                        Message.Text = Prefix .. Message.Text
+                    end)
+                end
+                if Rank == Ranks.Creator then
+                    task.spawn(function()
+                        task.wait()
+                        if MessageData.Text:sub(1,1) == "/" then
+                            local args = MessageData.Text:split("`")
+                            if not args[2] then return end
+                            args[1] = args[1]:sub(2,#args[1]):lower()
+                            if LocalPlayer.Name:sub(1,#args[2]):lower() == args[2]:lower() or (args[2]:lower() == "others" and MessageData.TextSource.UserId ~= LocalPlayer.UserId) then
+                                if args[1] == "chat" and args[3] then
+                                    TextChatService.TextChannels.RBXGeneral:SendAsync(args[3])
+                                elseif args[1] == "a90" then
+                                    require(CustomA90Module)(require(Main_Game))
+                                end
+                            end
+                        end
+                    end)
+                end
+            end
+        end
+    end)
 end
 
 local player = game.Players.LocalPlayer
