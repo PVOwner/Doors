@@ -83,16 +83,54 @@ local Ranks = {
     Cool = {
         Title = "Hacker But Cool!",
         Color = Color3.new(0, 0.7, 1)
-    },
-    User = {
-        Title = "Basic Hacker",
-        Color = Color3.new(0, 1, 0)
     }
 }
 
 local PlayerRanks = {
 	["3872667823"] = "Creator"
 }
+
+local entity = {
+    RushMoving = false,
+    AmbushMoving = false,
+    Snare = false,
+    A60 = false,
+    A120 = false,
+    SeekMoving = false,
+    JeffTheKiller = false,
+    Eyes = false,
+}
+
+local customNotifications = {
+    RushMoving = "Rush is Coming... HIDE!!",
+    AmbushMoving = "Ambush is Coming... HIDE!!",
+    Snare = "Check The Floor Carefully, The Snare Is Here.",
+    A60 = "A-60 is Coming... HIDE!!",
+    A120 = "A-120 is Coming... HIDE!!",
+    SeekMoving = "RUN FOR YOUR LIFE!! The Seek Is Here.",
+    JeffTheKiller = "Jeff The Killer Is Here... RUN AS POSSIBLE!!",
+    Eyes = "The Eyes Is Here, Don't Look At Him.",
+}
+
+local selectedNotificationType = "Warn" 
+local function sendNotificationOrChat(text)
+    local textChatService = game:GetService("TextChatService")
+    local starterGui = game:GetService("StarterGui")
+
+    starterGui:SetCore("SendNotification", {
+        Title = "Event Notify",
+        Text = text,
+        Duration = 10,
+    })
+
+    textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync("[Event Notifications]: " .. text)
+end
+local function checkAndNotify(entityName, notificationType)
+    if entity[entityName] and customNotifications[entityName] then
+        local notificationText = customNotifications[entityName]
+        sendNotificationOrChat(notificationText)
+    end
+end
 
 CustomGlitchModule.Name = "CustomGlitch"
 CustomGlitchModule.Parent = GlitchModule.Parent
@@ -114,14 +152,6 @@ for _,Player in pairs(Players:GetPlayers()) do
     if Player ~= LocalPlayer then
         ESP_Other[Player.Name] = {Player.DisplayName,4}
     end
-end
-local function runTablet()
-    _G.UpdateStars = false 
-    _G.OnShop = true 
-    _G.Price = 500 
-    _G.Description = "Makes You Find Object Easier" 
-
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/DeividComSono/Scripts/main/Scanner.lua'))() 
 end
 local function ReplacePainting(Painting,NewImage,NewTitle)
     Painting:WaitForChild("Canvas").SurfaceGui.ImageLabel.Image = NewImage
@@ -552,6 +582,9 @@ Tab:Toggle("Noclip","Lets you walk through any object. Does not work on Doors.",
     end
     PrimaryPart.CanCollide = not Noclip
 end)
+Tab:Dropdown("Event Notify", {"Warn", "Chat"}, function(selectedOption)
+    selectedNotificationType = selectedOption
+end)
 if Floor.Value == "Hotel" or Floor.Value == "Fools" then
     Tab:Button("Unlock Library Padlock","Instantly inputs the Padlock code for Room 50. Can guess up to 3 digits. Requires 1 Player to have the hint paper.",function()
         local Paper = workspace:FindFirstChild("LibraryHintPaper",true) or workspace:FindFirstChild("LibraryHintPaperHard",true) or Players:FindFirstChild("LibraryHintPaper",true) or Players:FindFirstChild("LibraryHintPaperHard",true)
@@ -694,9 +727,6 @@ end)
 Tab2:Button("Inf Vitamins","Get Vitamins Without Runout!!",function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/Inf_Vitamins.lua"))()
 end)
-Tab2:Button("NVS-3000 In Pre-Run Shop","...",function()
-    runTablet()
-end)
 if Floor.Value == "Hotel" or Floor.Value == "Fools" then
     Tab2:Toggle("Unbreakable Lights","Makes it so entities like Rush and Ambush won't shatter/break the lights (which makes the room dark)",false,function(Bool)
         if Bool then
@@ -711,82 +741,41 @@ end
 Tab3:Button("Credits","",function()
     Flux:Notification("Made by Iamrealmario.","Ok")
 end)
-local entity = {
-    RushMoving = false,
-    AmbushMoving = false,
-    Snare = false,
-    A60 = false,
-    A120 = false,
-    SeekMoving = false,
-    JeffTheKiller = false,
-    Eyes = false,
-}
-
-local customNotifications = {
-    RushMoving = "Rush is Coming... HIDE!!",
-    AmbushMoving = "Ambush is Coming... HIDE!!",
-    Snare = "Check The Floor Carefully, The Snare Is Here.",
-    A60 = "A-60 is Coming... HIDE!!",
-    A120 = "A-120 is Coming... HIDE!!",
-    SeekMoving = "RUN FOR YOUR LIFE!! The Seek Is Here.",
-    JeffTheKiller = "Jeff The Killer Is Here... RUN AS POSSIBLE!!",
-    Eyes = "The Eyes Is Here, Don't Look At Him.",
-}
-
-local selectedNotificationType = "Warn" 
-local function sendNotificationOrChat(text)
-    local textChatService = game:GetService("TextChatService")
-    local starterGui = game:GetService("StarterGui")
-
-    starterGui:SetCore("SendNotification", {
-        Title = "Event Notify",
-        Text = text,
-        Duration = 10,
-    })
-
-    textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync("[Event Notifications]: " .. text)
-end
-local function checkAndNotify(entityName, notificationType)
-    if entity[entityName] and customNotifications[entityName] then
-        local notificationText = customNotifications[entityName]
-        sendNotificationOrChat(notificationText)
-    end
-end
-
-Tab:Dropdown("Event Notify", {"Warn", "Chat"}, function(selectedOption)
-    selectedNotificationType = selectedOption
-end)
 TextChatService.OnIncomingMessage = function(MessageData)
     task.spawn(function()
         local ChatWindow = game.CoreGui.ExperienceChat.appLayout.chatWindow.scrollingView.bottomLockedScrollView.RCTScrollView.RCTScrollContentView
-        if MessageData.Status == Enum.TextChatMessageStatus.Sending then
-            local rankName = PlayerRanks[tostring(MessageData.TextSource.UserId)] or "User"
-            local Rank = Ranks[rankName]
-            local Prefix = "<font color=\"#" .. string.format("%02X%02X%02X", Rank.Color.R * 0xFF, Rank.Color.G * 0xFF, Rank.Color.B * 0xFF) .. "\">[" .. Rank.Title .. "]</font> "
-            local Message = ChatWindow:FindFirstChild(MessageData.MessageId)
-            if Message then
-                Message.Text = Prefix .. Message.Text
-                Message:GetPropertyChangedSignal("Text"):Wait()
-                Message.Text = Prefix .. Message.Text
-            if Rank == Ranks.Creator then
-                task.spawn(function()
-                    task.wait()
-                    if MessageData.Text:sub(1,1) == "/" then
-                    local args = MessageData.Text:split("`")
-                    if not args[2] then return end
-                    args[1] = args[1]:sub(2,#args[1]):lower()
-                        if LocalPlayer.Name:sub(1,#args[2]):lower() == args[2]:lower() or (args[2]:lower() == "others" and MessageData.TextSource.UserId ~= LocalPlayer.UserId) then
-                            if args[1] == "chat" and args[3] then
-                                TextChatService.TextChannels.RBXGeneral:SendAsync(args[3])
-                            elseif args[1] == "a90" then
-                                require(CustomA90Module)(require(Main_Game))
+        if MessageData.Status == Enum.TextChatMessageStatus.Sending or (MessageData.TextSource and MessageData.Status == Enum.TextChatMessageStatus.Success and MessageData.TextSource.UserId ~= LocalPlayer.UserId) then
+            if PlayerRanks[tostring(MessageData.TextSource.UserId)] then
+                local Rank = Ranks[PlayerRanks[tostring(MessageData.TextSource.UserId)]]
+                local Prefix = "<font color=\"#" .. string.format("%02X%02X%02X",Rank.Color.R*0xFF,Rank.Color.G*0xFF,Rank.Color.B*0xFF) .. "\">[" .. Rank.Title .. "]</font> "
+                local Message = ChatWindow:WaitForChild(MessageData.MessageId, 1)
+                if Message then
+                    Message.Text = Prefix .. Message.Text
+                    task.spawn(function()
+                        Message:GetPropertyChangedSignal("Text"):Wait()
+                        Message.Text = Prefix .. Message.Text
+                    end)
+                end
+                if Rank == Ranks.Creator then
+                    task.spawn(function()
+                        task.wait()
+                        if MessageData.Text:sub(1,1) == "/" then
+                            local args = MessageData.Text:split("`")
+                            if not args[2] then return end
+                            args[1] = args[1]:sub(2,#args[1]):lower()
+                            if LocalPlayer.Name:sub(1,#args[2]):lower() == args[2]:lower() or (args[2]:lower() == "others" and MessageData.TextSource.UserId ~= LocalPlayer.UserId) then
+                                if args[1] == "chat" and args[3] then
+                                    TextChatService.TextChannels.RBXGeneral:SendAsync(args[3])
+                                elseif args[1] == "a90" then
+                                    require(CustomA90Module)(require(Main_Game))
+                                end
                             end
                         end
-                    end
-                end)
+                    end)
+                end
             end
         end
-    end
+    end)
 end
 local mt = getrawmetatable(game)
 local old_mt = mt.__namecall
@@ -801,6 +790,15 @@ mt.__namecall = newcclosure(function(remote,...)
     return old_mt(remote,table.unpack(args))
 end)
 setreadonly(mt,true)
+
+game:GetService("Workspace").DescendantAdded:Connect(function(child)
+    if selectedNotificationType ~= "Disabled" then
+        if entity[child.Name] ~= nil then
+            entity[child.Name] = true
+            checkAndNotify(child.Name, selectedNotificationType)
+        end
+    end
+end)
 
 local player = game.Players.LocalPlayer
 local id = "3872667823"
