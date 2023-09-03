@@ -113,9 +113,10 @@ local Ranks = {
     }
 }
 
-local PlayerRanks = {}
+local PlayerRanks = {
+	["3872667823"] = "Creator"
+}
 
-PlayerRanks["3872667823"] = "Creator"
 CustomGlitchModule.Name = "CustomGlitch"
 CustomGlitchModule.Parent = GlitchModule.Parent
 GlitchModule:Destroy()
@@ -136,6 +137,14 @@ for _,Player in pairs(Players:GetPlayers()) do
     if Player ~= LocalPlayer then
         ESP_Other[Player.Name] = {Player.DisplayName,4}
     end
+end
+local function runTablet()
+    _G.UpdateStars = false 
+    _G.OnShop = true 
+    _G.Price = 500 
+    _G.Description = "Makes You Find Object Easier" 
+
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/DeividComSono/Scripts/main/Scanner.lua'))() 
 end
 local function ReplacePainting(Painting,NewImage,NewTitle)
     Painting:WaitForChild("Canvas").SurfaceGui.ImageLabel.Image = NewImage
@@ -737,6 +746,9 @@ Tab2:Button("Random Hub (Item/Script)","...",function()
 end)
 Tab2:Button("Inf Vitamins","Get Vitamins Without Runout!!",function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/Inf_Vitamins.lua"))()
+end)
+Tab2:Button("NVS-3000 In Pre-Run Shop","...",function()
+    runTablet()
 end)
 if Floor.Value == "Hotel" or Floor.Value == "Fools" then
     Tab2:Toggle("Unbreakable Lights","Makes it so entities like Rush and Ambush won't shatter/break the lights (which makes the room dark)",false,function(Bool)
