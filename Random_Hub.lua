@@ -1,5 +1,5 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Yopapa699/KavoUI/main/KavoUiLib"))()
-local Window = Library.CreateLib(":)", "Serpent")
+local Window = Library.CreateLib("Random Hub", "Serpent")
 
 local Tab = Window:NewTab("Tools")
 local Section = Tab:NewSection("Get Tools Here!!")
@@ -100,30 +100,6 @@ end)
 Section:NewButton("Eyes Plushie", "", function()
    local Item = game:GetObjects("rbxassetid://110017631")[1]
    Item.Parent = game.Players.LocalPlayer.Backpack
-end)
-
-Section:NewButton("Rocket Launcher V1 (Normal)", "", function()
-    _G.reloadTime = 0 
-    _G.explosionType = "Default"
-    _G.explosionPower = 2500 
-    _G.explosionRadius = 10 
-    _G.lessBrighterColorsFromExplosion = 30 
-    _G.betterFEEffect = true 
-    _G.ignoreMyself = false 
-
-    loadstring(game:HttpGetAsync("https://github.com/InfernusScripts/Items/raw/main/RocketLauncher.lua",true))()
-end)
-
-Section:NewButton("Rocket Launcher V2 (Banana)", "Need Modifier DOORS SUPER HARD MODE", function()
-    _G.reloadTime = 0 
-    _G.explosionType = "Banana"
-    _G.explosionPower = 2500 
-    _G.explosionRadius = 10 
-    _G.lessBrighterColorsFromExplosion = 30 
-    _G.betterFEEffect = true 
-    _G.ignoreMyself = false 
-
-    loadstring(game:HttpGetAsync("https://github.com/InfernusScripts/Items/raw/main/RocketLauncher.lua",true))()
 end)
 
 local Tab = Window:NewTab("Script")
