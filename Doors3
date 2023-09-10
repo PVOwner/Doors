@@ -105,25 +105,17 @@ end)
 local Tab = Window:NewTab("Script")
 local Section = Tab:NewSection("Get Scripts Here!!")
 
-Section:NewButton("GodMode", "", function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/GodModeByNerd.lua"))()
+Section:NewButton("Shadow X UI", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/PVOwner/Doors/main/Doors1"))()
 end)
 
-Section:NewButton("Be Everything", "", function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/MrNeRD0/Doors-Hack/main/BeEverything.lua"))()
+Section:NewButton("Doors Hacks V2", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/PVOwner/Doors/main/Doors2"))()
 end)
 
 Section:NewButton("Item Morph GUI", "", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/K0t1n/Public/main/Item Morph GUI"))()
 end)
 
-Section:NewButton("FOV", "", function()
-    game.Workspace.CurrentCamera.FieldOfView = 130
-end)
-
-Section:NewButton("Entity Spawner", "", function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/althan99/doors-entity-spawner/main/Script"))()  
-end)
-
 local Tab = Window:NewTab("Credits")
-local Section = Tab:NewSection("Made by Ember 😎.")
+local Section = Tab:NewSection("Made by Ember 😎")
