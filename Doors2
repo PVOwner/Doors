@@ -244,7 +244,7 @@ ESPSection:NewToggle("Key ESP", "", function(state)
     end
 end)
 
-local Misc = Window:NewTab("Misc")
+local Misc = Window:NewTab("Extra")
 local MiscSection = Misc:NewSection("Toggle UI")
 
 MiscSection:NewKeybind("Toggle UI", "Default Is RightShift", Enum.KeyCode.RightShift, function()
