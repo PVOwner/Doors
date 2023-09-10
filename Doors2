@@ -1,0 +1,353 @@
+local Library = loadstring(game:HttpGet("https://pastebin.com/raw/vff1bQ9F"))()
+local Window = Library.CreateLib("Doors Hacks V2", "Synapse")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local MainUI = LocalPlayer.PlayerGui.MainUI
+local Main_Game = MainUI.Initiator.Main_Game
+local Modules = Main_Game.RemoteListener.Modules
+local A90Module = Modules.A90
+local Character = LocalPlayer.Character
+local Regular = Window:NewTab("Entities")
+local RegularSection = Regular:NewSection("Entities")
+
+RegularSection:NewButton("Screech", "The Annoying Things In The World", function()
+    require(Modules.Screech)(require(Main_Game),
+ workspace.CurrentRooms[game.Players.LocalPlayer:GetAttribute("CurrentRoom")])
+end)
+
+RegularSection:NewButton("Halt", "TF i hate him", function()
+    require(game.ReplicatedStorage.ClientModules.EntityModules.Shade).stuff(require(Main_Game),
+ workspace.CurrentRooms[game.Players.LocalPlayer:GetAttribute("CurrentRoom")])
+end)
+
+RegularSection:NewButton("A-90", "TF i hate him", function()
+    require(A90Module)(require(Main_Game))
+end)
+
+RegularSection:NewButton("Glitch", "Real", function()
+    require(game.ReplicatedStorage.ClientModules.EntityModules.Glitch).stuff(require(Main_Game),
+ workspace.CurrentRooms[game.Players.LocalPlayer:GetAttribute("CurrentRoom")])
+end)
+
+RegularSection:NewButton("Timothy", "Ugh Again!", function()
+    require(Main_Game.Modules.SpiderJumpscare)(require(Main_Game), workspace.CurrentRooms["0"].Assets.Dresser.DrawerContainer, 0.2)
+end)
+
+RegularSection:NewButton("Seek", "Oh HELL NAH", function()
+    local EntitySpawner = loadstring(game:HttpGet("https://raw.githubusercontent.com/dreadmania/Scripts/main/EntitySpawner.lua"))()
+    local Configuration = {}
+    
+    EntitySpawner:Spawn("Seek", unpack(Configuration))
+end)
+
+RegularSection:NewButton("JackCloset", "", function()
+    local config={
+        Image="http://www.roblox.com/asset/?id=11388995838", -- Could also be "image.png"
+        Sound="rbxassetid://11350126934", -- Could also be "file.mp3"
+        EntityName="Jack" -- Make sure to change if you mod the image/sound to prevent overlapping
+    }
+    
+    local ReSt = game:GetService("ReplicatedStorage")
+    
+    local ModuleScripts = {
+        ModuleEvents = require(ReSt.ClientModules.Module_Events),
+    }
+    
+    local function connectClosetJack(wardrobes, room, bool)
+        for _, wardrobe in pairs(wardrobes) do
+            if not game:GetService("ReplicatedStorage"):FindFirstChild("closetAnim") then 
+                local anim = Instance.new("Animation")
+                anim.AnimationId = "rbxassetid://9460435404"
+                anim.Name="closetAnim"
+                anim.Parent=game:GetService("ReplicatedStorage")
+            end
+            if not game:GetService("ReplicatedStorage"):FindFirstChild("JackModel") then
+                if not isfile(config.EntityName..".txt") then writefile(config.EntityName..".txt", game:HttpGet("https://github.com/sponguss/storage/raw/real/newclosetjack.rbxm?raw=true")) end
+                local a=game:GetObjects((getcustomasset or getsynasset)(config.EntityName..".txt"))[1]
+                a.Name="JackModel"
+                a.Parent=game:GetService("ReplicatedStorage")
+            end
+            game:GetService("ReplicatedStorage").JackModel.Sound.SoundId=(isfile(config.Sound) and (getcustomasset or getsynasset)(config.Sound) or config.Sound)
+            game:GetService("ReplicatedStorage").JackModel.Gui.ImageLabel.Image=(isfile(config.Image) and (getcustomasset or getsynasset)(config.Image) or config.Image)
+            local prompt = wardrobe:WaitForChild("HidePrompt", 1)
+            if not prompt and wardrobe:FindFirstChild("fakePrompt") then return end
+        
+            if prompt then
+                -- Fake prompt
+        
+                local fakePrompt = prompt:Clone()
+                
+                if bool then prompt:Destroy() else prompt.Enabled=false end
+                fakePrompt.Parent = wardrobe
+                fakePrompt.Name="fakePrompt"
+                
+                local connection; connection = fakePrompt.Triggered:Connect(function()
+                    if not bool then connection:Disconnect() end
+                    local model=game:GetService("ReplicatedStorage").JackModel:Clone()
+        
+                    if model and not wardrobe:FindFirstChild(model.Name) then
+                        model:SetPrimaryPartCFrame(wardrobe.Main.CFrame)
+                        model.Parent = workspace
+        
+                        -- Animation setup
+                        local anim = wardrobe.AnimationController:LoadAnimation(game:GetService("ReplicatedStorage").closetAnim)
+        
+                        -- Scare
+                        
+                        ModuleScripts.ModuleEvents.flickerLights(room, 1)
+                        anim:Play()
+                        model.Sound:Play()
+        
+                        -- Destroy
+        
+                        task.wait(1)
+                        
+                        model:Destroy()
+                        if not bool then prompt.Enabled = true end
+                        if not bool then fakePrompt:Destroy() end
+        
+                        if not bool then connection:Disconnect() end
+                    end
+                end)
+            end
+        end
+    end
+    
+    local wardrobes = {}
+    for _, wardrobe in pairs(workspace.CurrentRooms[game.Players.LocalPlayer:GetAttribute("CurrentRoom")].Assets:GetChildren()) do
+        if wardrobe.Name=="Wardrobe" then
+            table.insert(wardrobes, wardrobe)
+        end
+    end
+    
+    if wardrobes[1] then
+        connectClosetJack(wardrobes, workspace.CurrentRooms[game.Players.LocalPlayer:GetAttribute("CurrentRoom")], true) -- 'true' for jack to appear every time
+    end
+end)
+
+RegularSection:NewButton("Jack Room", "", function()
+    game.ReplicatedStorage.GameData.LatestRoom.Changed:Wait()
+    local currentLoadedRoom=workspace.CurrentRooms[game:GetService("ReplicatedStorage").GameData.LatestRoom.Value]
+    local shadow=game:GetObjects("rbxassetid://11499539790")[1]
+    firesignal(game.ReplicatedStorage.Bricks.UseEventModule.OnClientEvent, "flickerLights", game.ReplicatedStorage.GameData.LatestRoom.Value, 1)
+    shadow:PivotTo(currentLoadedRoom.RoomStart.CFrame)
+    wait(0.2)
+    shadow.Parent=workspace
+    shadow.Sound:Play()
+    task.wait(0.3)
+    shadow:Destroy()
+    firesignal(game.ReplicatedStorage.Bricks.UseEventModule.OnClientEvent, "tryp", workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value], 10)
+end)
+
+RegularSection:NewButton("Rush", " ", function()
+    local Notifications = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
+    
+    Notifications:MakeNotification({
+        Name = "Sorry!",
+        Content = "This Feature Is Work In Process!",
+        Time = 5
+    })
+end)
+
+RegularSection:NewButton("Ambush", " ", function()
+    loadstring(game:HttpGet"https://raw.githubusercontent.com/sponguss/storage/main/entitySpawner.lua")().createEntity("Ambush")
+     local tb=entityTable["Ambush"]
+     tb.Speed=120
+     tb.Sounds={"PlaySound", "Footsteps"}
+     tb.Model="https://github.com/sponguss/storage/raw/main/newambush.rbxm"
+     tb.Ambush.Enabled=true
+     tb.WaitTime=2.5
+     loadstring(game:HttpGet"https://raw.githubusercontent.com/sponguss/storage/main/entitySpawner.lua")().runEntity("Ambush")
+end)
+
+local Extra = Window:NewTab("Misc")
+local ExtraSection = Extra:NewSection("Misc")
+
+ExtraSection:NewButton("Infinite Yield", "", function()
+    loadstring(game:HttpGet("https://cdn.wearedevs.net/scripts/Infinite%20Yield.txt"))()
+end)
+
+ExtraSection:NewButton("Event Notify", "", function()
+    workspace.ChildAdded:Connect(function(Obj)
+        if Obj.Name:sub(1, 1) == "A" and Obj.Name ~= "AmbushMoving" then
+            game.StarterGui:SetCore("SendNotification", {
+                Title = Obj.Name .. " Spawned ⚠️",
+                Text = "Hide Quick",
+                Duration = 5
+            })
+        end
+    end)
+    workspace.ChildRemoved:Connect(function(Obj)
+        if Obj.Name:sub(1, 1) == "A" and Obj.Name ~= "AmbushMoving" then
+            game.StarterGui:SetCore("SendNotification", {
+                Title = Obj.Name .. " DeSpawned ✅",
+                Text = "ur good",
+                Duration = 5
+            })
+        end
+    end)
+end)
+
+ExtraSection:NewButton("Heartbeat", "", function()
+    firesignal(game.ReplicatedStorage.Bricks.ClutchHeartbeat.OnClientEvent)
+end)
+
+ExtraSection:NewButton("Breaking Light", "", function()
+    local room = workspace.CurrentRooms[game.Players.LocalPlayer:GetAttribute("CurrentRoom")]
+    local events = require(game.ReplicatedStorage.ClientModules.Module_Events)
+    events.breakLights(room, 1)
+end)
+
+ExtraSection:NewKeybind("Heartbeat Keybind", "", Enum.KeyCode.B, function()
+    firesignal(game.ReplicatedStorage.Bricks.ClutchHeartbeat.OnClientEvent)
+end)
+
+ExtraSection:NewButton("Red Room", "" , function()
+    local v1 = require(game.ReplicatedStorage.ClientModules.Module_Events)
+    local room = workspace.CurrentRooms[game.Players.LocalPlayer:GetAttribute("CurrentRoom")]
+    local seconds = 1000000
+    v1.tryp(workspace.CurrentRooms[game.Players.LocalPlayer:GetAttribute("CurrentRoom")], seconds)
+end)
+
+ExtraSection:NewButton("Quick Revive", "Needed Revive", function()
+    game.ReplicatedStorage.Bricks.Revive:FireServer()
+end)
+
+ExtraSection:NewSlider("WalkSpeed", "u r ishowspeed?", 1000, 16, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+end)
+
+ExtraSection:NewSlider("JumpPower", "ohhh, ishowjump!", 1000, 50, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+end)
+
+ExtraSection:NewButton("Fullbright", "Bro, why ur eyes are white?", function()
+    local Light = game:GetService("Lighting")
+
+    function fb()
+        Light.Ambient = Color3.new(1, 1, 1)
+        Light.ColorShift_Bottom = Color3.new(1, 1, 1)
+        Light.ColorShift_Top = Color3.new(1, 1, 1)
+    end
+
+    fb()
+
+    Light.LightingChanged:Connect(fb)
+end)
+
+ExtraSection:NewButton("Duplicate Figure On Doors 50", "Use This On Doors 50", function()
+    local door = "Specify the door here"  -- You need to specify the door
+    local Figure = game:GetService("Workspace").CurrentRooms[door].FigureSetup.FigureRagdoll:Clone()
+    Figure.Parent = game:GetService("Workspace").CurrentRooms[door].FigureSetup
+    Figure.Position = Vector3.new(game:GetService("Workspace").CurrentRooms[door].FigureSetup.FigureRagdoll.Position);
+end)
+
+local ESP = Window:NewTab("ESP")
+local ESPSection = ESP:NewSection("ESP")
+
+local BookChams = {}
+local FigureChams = {}
+local KeyChams = {}
+
+ESPSection:NewToggle("Figure ESP", "", function(state)
+    if state then
+        local function ApplyBookChams(inst)
+            if inst:IsDescendantOf(game:GetService("Workspace").CurrentRooms:FindFirstChild("50")) and game:GetService("ReplicatedStorage").GameData.LatestRoom.Value == 50 then
+                wait()
+                local Cham = Instance.new("Highlight")
+                Cham.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+                Cham.FillColor = Color3.new(0, 1, 0.749019)
+                Cham.FillTransparency = 0.5
+                Cham.OutlineColor = Color3.new(0.792156, 0.792156, 0.792156)
+                Cham.Parent = game:GetService("CoreGui")
+                Cham.Enabled = OrionLib.Flags["BookToggle"].Value
+                Cham.Adornee = inst
+                Cham.RobloxLocked = true
+                return Cham
+            end
+        end
+        
+        local function ApplyEntityChams(inst)
+            wait()
+            local Cham = Instance.new("Highlight")
+            Cham.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+            Cham.FillColor = Color3.new(1, 0, 0)
+            Cham.FillTransparency = 0.5
+            Cham.OutlineColor = Color3.new(0.792156, 0.792156, 0.792156)
+            Cham.Parent = game:GetService("CoreGui")
+            Cham.Enabled = OrionLib.Flags["FigureToggle"].Value
+            Cham.Adornee = inst
+            Cham.RobloxLocked = true
+            return Cham
+        end
+        
+        local BookCoroutine = coroutine.create(function()
+            task.wait(1)
+            for i,v in pairs(game:GetService("Workspace").CurrentRooms["50"].Assets:GetDescendants()) do
+                if v.Name == "LiveHintBook" then
+                    table.insert(BookChams,ApplyBookChams(v))
+                end
+            end
+        end)
+        local EntityCoroutine = coroutine.create(function()
+            local Entity = game:GetService("Workspace").CurrentRooms["50"].FigureSetup:WaitForChild("FigureRagdoll",5)
+            Entity:WaitForChild("Torso",2.5)
+            table.insert(FigureChams,ApplyEntityChams(Entity))
+        end)
+    else
+        print("Toggle Off")
+    end
+end)
+
+ESPSection:NewToggle("Books ESP", "", function(state)
+    if state then
+        Callback = function(Value)
+            for i,v in pairs(BookChams) do
+                v.Enabled = Value
+            end
+        end    
+    else
+        print("Toggle Off")
+    end
+end)
+
+ESPSection:NewToggle("Key ESP", "", function(state)
+    if state then
+        local function ApplyKeyChams(inst)
+            wait()
+            local Cham = Instance.new("Highlight")
+            Cham.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+            Cham.FillColor = Color3.new(0.980392, 0.670588, 0)
+            Cham.FillTransparency = 0.5
+            Cham.OutlineColor = Color3.new(0.792156, 0.792156, 0.792156)
+            Cham.Parent = game:GetService("CoreGui")
+            Cham.Adornee = inst
+            Cham.Enabled = OrionLib.Flags["KeyToggle"].Value
+            Cham.RobloxLocked = true
+            return Cham
+        end
+        
+        local KeyCoroutine = coroutine.create(function()
+            workspace.CurrentRooms.DescendantAdded:Connect(function(inst)
+                if inst.Name == "KeyObtain" then
+                    table.insert(KeyChams,ApplyKeyChams(inst))
+                end
+            end)
+        end)
+        for i,v in ipairs(workspace:GetDescendants()) do
+            if v.Name == "KeyObtain" then
+                table.insert(KeyChams,ApplyKeyChams(v))
+            end
+        end
+        coroutine.resume(KeyCoroutine)
+    else
+        print("Toggle Off")
+    end
+end)
+
+local Misc = Window:NewTab("Credits")
+local MiscSection = Misc:NewSection("Credits")
+
+MiscSection:NewKeybind("Toggle UI", "Default Is RightShift", Enum.KeyCode.RightShift, function()
+    Library:ToggleUI()
+end)
