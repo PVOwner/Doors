@@ -1,1 +1,7 @@
-
+local Notifications = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
+    
+Notifications:MakeNotification({
+    Name = "Sorry!",
+    Content = "This Script Is Work In Process!",
+    Time = 5
+})
