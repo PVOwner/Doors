@@ -167,6 +167,14 @@ ExtraSection:NewButton("Infinite Yield", "", function()
     loadstring(game:HttpGet("https://cdn.wearedevs.net/scripts/Infinite%20Yield.txt"))()
 end)
 
+ExtraSection:NewButton("Shadow X UI", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/PVOwner/Doors/main/Doors1"))()
+end)
+
+ExtraSection:NewButton("Item Hub", "", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/PVOwner/Doors/main/Doors3"))()
+end)
+
 ExtraSection:NewButton("Event Notify", "", function()
     workspace.ChildAdded:Connect(function(Obj)
         if Obj.Name:sub(1, 1) == "A" and Obj.Name ~= "AmbushMoving" then
